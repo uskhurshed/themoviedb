@@ -76,7 +76,7 @@
         android:background="@drawable/bg_curr"
         android:backgroundTint="#106DF8"
         android:padding="5dp"
-        android:text="HD and 4K"
+        android:text="@string/quality"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"

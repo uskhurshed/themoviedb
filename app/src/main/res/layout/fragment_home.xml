@@ -76,7 +76,7 @@
 
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Популярные"
+                    android:text="@string/ct_popular"
                     android:textSize="16sp" />
 
                 <TextView
@@ -86,7 +86,7 @@
 
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="Показать все"
+                    android:text="@string/show_all"
                     android:textColor="#036FF4"
                     android:textSize="16sp" />
 

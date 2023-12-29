@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">movie</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quality">HD and 4K</string>
+    <string name="top_rating">Топ рейтинга</string>
+    <string name="nav_dark">Темный режим</string>
+    <string name="nav_share">Поделиться</string>
+    <string name="nav_rate">Оценить приложение</string>
+    <string name="nav_apps">Другие приложении</string>
+    <string name="nav_about">О приложении</string>
+    <string name="ct_popular">Популярные</string>
+    <string name="show_all">Показать все</string>
+    <string name="search">Поиск</string>
+    <string name="rate">Оценка</string>
+    <string name="del_rate">Удалить оценку</string>
+    <string name="loading">Загрузка…</string>
+    <string name="nv_home">Главная</string>
+    <string name="nv_top">Рейтинг</string>
+    <string name="nv_fav">Избранные</string>
+    <string name="nv_more">Еще</string>
 </resources>

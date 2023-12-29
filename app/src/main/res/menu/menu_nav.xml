@@ -5,24 +5,24 @@
         android:id="@+id/homeFragment"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="Home"
+        android:title="@string/nv_home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/ratingFragment"
         android:enabled="true"
         android:icon="@drawable/ic_rating"
-        android:title="Top"
+        android:title="@string/nv_top"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/favoriteFragment"
         android:enabled="true"
         android:icon="@drawable/ic_favorite"
-        android:title="Favorite"
+        android:title="@string/nv_fav"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/moreFragment"
         android:enabled="true"
         android:icon="@drawable/ic_more"
-        android:title="More"
+        android:title="@string/nv_more"
         app:showAsAction="ifRoom" />
 </menu>

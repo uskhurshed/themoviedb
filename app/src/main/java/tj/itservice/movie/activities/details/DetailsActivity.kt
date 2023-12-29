@@ -109,6 +109,8 @@ class DetailsActivity : AppCompatActivity() {
 
 
     private fun formatNumber(number: Long?): String {
+
+        // Барои разделить кадан разрядба
         val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
         return numberFormat.format(number)
     }

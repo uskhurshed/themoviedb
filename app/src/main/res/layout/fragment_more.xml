@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/inter_bold"
-            android:text="Еще"
+            android:text="@string/nv_more"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -38,7 +38,7 @@
                 android:drawableStart="@drawable/ic_dark"
                 android:drawablePadding="10dp"
                 android:padding="10dp"
-                android:text="Темный режим"
+                android:text="@string/nav_dark"
                 app:thumbIconSize="1dp"
                 app:trackDecorationTint="@android:color/transparent" />
 
@@ -53,7 +53,7 @@
                 android:focusable="true"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="Поделиться"
+                android:text="@string/nav_share"
                 app:drawableEndCompat="@drawable/ic_go"
                 app:drawableStartCompat="@drawable/ic_share" />
 
@@ -68,7 +68,7 @@
                 android:focusable="true"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="Оценить приложение"
+                android:text="@string/nav_rate"
                 app:drawableEndCompat="@drawable/ic_go"
                 app:drawableStartCompat="@drawable/ic_rate" />
 
@@ -83,7 +83,7 @@
                 android:focusable="true"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="Другие приложении"
+                android:text="@string/nav_apps"
                 app:drawableEndCompat="@drawable/ic_go"
                 app:drawableStartCompat="@drawable/ic_apps" />
 
@@ -98,7 +98,7 @@
                 android:focusable="true"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="О приложении"
+                android:text="@string/nav_about"
                 app:drawableEndCompat="@drawable/ic_go"
                 app:drawableStartCompat="@drawable/ic_info" />
 

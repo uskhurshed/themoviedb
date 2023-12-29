@@ -13,15 +13,15 @@
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_wifi_off"
-        app:tint="@android:color/holo_red_dark" />
+        app:tint="@color/seed" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Нет подключение к инернету"
-        android:textColor="@android:color/holo_red_dark"
+        android:text="Попытка установления соединения не удачна. "
+        android:textColor="?attr/actionMenuTextColor"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/image2" />
@@ -30,6 +30,8 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Повторить" />
+        android:layout_margin="10dp"
+        android:text="Повторить"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

@@ -71,7 +71,6 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-
     override fun getItemViewType(position: Int): Int {
         return if (movieList.isEmpty()) typeShimmer
         else typeRegular

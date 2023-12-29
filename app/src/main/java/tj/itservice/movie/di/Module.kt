@@ -38,9 +38,9 @@ object Module {
 
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .connectTimeout(30, TimeUnit.SECONDS) // Установка таймаута на подключение
-            .readTimeout(30, TimeUnit.SECONDS) // Установка таймаута на чтение
-            .writeTimeout(30, TimeUnit.SECONDS) // Установка таймаута на запись
+            .connectTimeout(30, TimeUnit.SECONDS) //  таймаут на подключение
+            .readTimeout(30, TimeUnit.SECONDS) //  таймаут на чтение
+            .writeTimeout(30, TimeUnit.SECONDS) //  таймаут на запись
             .build()
     }
 

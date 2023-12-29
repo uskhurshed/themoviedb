@@ -25,7 +25,6 @@ class DiscoverViewModel
             } catch (e: Exception) {
                 Log.d("main", "getPost: ${e.message}")
                 error.postValue(e.message)
-
             }
         }
     }

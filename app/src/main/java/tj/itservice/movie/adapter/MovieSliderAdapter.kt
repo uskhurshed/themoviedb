@@ -18,7 +18,6 @@ import tj.itservice.movie.utils.ApiHelper
 
 class MovieSliderAdapter(private var movies: ArrayList<MovieResult>): SliderViewAdapter<MovieSliderAdapter.MyViewHolder>() {
 
-
     override fun getCount(): Int {
         return 5
     }

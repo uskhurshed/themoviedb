@@ -42,7 +42,6 @@ class DiscoverAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
     }
-
     override fun getItemCount(): Int {
         return movieList.size
     }
