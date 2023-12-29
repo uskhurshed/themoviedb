@@ -19,3 +19,5 @@ data class MovieResult(
     val original_title: String?,
     val genres: List<Genres?>?
 )
+
+
