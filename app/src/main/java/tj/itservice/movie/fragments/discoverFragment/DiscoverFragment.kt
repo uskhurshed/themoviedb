@@ -94,19 +94,23 @@ class DiscoverFragment : Fragment() {
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun showErrorMessage() {
         bindDis.etSearch.visibility = View.GONE
         bindDis.rvDiscover.visibility = View.GONE
-        bindDis.main.visibility = View.GONE
+        bindDis.main.visibility = View.VISIBLE
         loadingDialog.dismiss()
         val v = LayoutInflater.from(requireContext()).inflate(R.layout.error_state, bindDis.root, false)
         val btnRetry = v.findViewById<Button>(R.id.button)
 
         btnRetry.setOnClickListener {
             mainVM.start()
+            adapter.movieList.clear()
+            loadingDialog.show()
             hideErrorMessage()
             mainVM.error.postValue("")
             bindDis.main.removeView(v)
+            adapter.notifyDataSetChanged()
         }
 
         bindDis.main.addView(v)
@@ -115,7 +119,7 @@ class DiscoverFragment : Fragment() {
     private fun hideErrorMessage() {
         bindDis.etSearch.visibility = View.VISIBLE
         bindDis.rvDiscover.visibility = View.VISIBLE
-        bindDis.main.visibility = View.VISIBLE
+        bindDis.main.visibility = View.GONE
     }
 
 

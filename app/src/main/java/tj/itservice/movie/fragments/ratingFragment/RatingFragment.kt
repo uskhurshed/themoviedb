@@ -59,6 +59,7 @@ class RatingFragment : Fragment() {
 
         btnRetry.setOnClickListener {
             viewModel.start()
+            adapter.movieList.clear()
             hideErrorMessage()
             viewModel.error.postValue("")
             bindRate.main.removeView(v)
