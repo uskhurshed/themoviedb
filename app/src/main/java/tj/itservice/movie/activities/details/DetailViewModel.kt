@@ -22,16 +22,23 @@ class DetailViewModel @Inject constructor(private val postRepository: Repository
     private val movieDao = App.database.movieDao()
     val isFavorite = MutableLiveData<Boolean>()
     val error: MutableLiveData<String> = MutableLiveData()
+    private var movie:MovieResult? = null
 
-
-    fun load(id:Long) {
+    fun load(id: Long) {
         viewModelScope.launch {
-            try {
-                val response = postRepository.getMovieDetails(id)
-                detailLD.postValue (response)
-            } catch (e: Exception) {
-                error.postValue(e.message)
-                Log.d("main", "getPost: ${e.message}")
+            withContext(Dispatchers.IO) {
+                movie = movieDao.getMovieById(id)
+            }
+            if (movie != null) {
+                detailLD.postValue(movie )
+            } else {
+                try {
+                    val response = postRepository.getMovieDetails(id)
+                    detailLD.postValue(response)
+                } catch (e: Exception) {
+                    error.postValue(e.message)
+                    Log.d("main", "getPost: ${e.message}")
+                }
             }
         }
     }

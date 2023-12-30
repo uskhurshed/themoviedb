@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import tj.itservice.movie.R
+import tj.itservice.movie.data.MovieResult
 import tj.itservice.movie.databinding.ActivityDetailsBinding
 import tj.itservice.movie.utils.ApiHelper
 import tj.itservice.movie.utils.LoadingDialog
@@ -29,7 +30,6 @@ class DetailsActivity : AppCompatActivity() {
     private val rateDialog = RateDialog(this)
     var id: Long = 0
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivityDetailsBinding.inflate(layoutInflater)
@@ -41,9 +41,7 @@ class DetailsActivity : AppCompatActivity() {
         loadingDialog.show()
 
 
-
         detailVM = ViewModelProvider(this)[DetailViewModel::class.java]
-
         detailVM.error.observe(this){
             Toast.makeText(this,it,Toast.LENGTH_SHORT).show()
             finish()
@@ -51,41 +49,8 @@ class DetailsActivity : AppCompatActivity() {
 
         detailVM.load(id)
         detailVM.detailLD.observe(this) {
-            bind.apply {
-                tvTitle.text = it?.title
-                tvOriginalTitle.text = it?.original_title
-                tvRealise.text = "Дата релиза: " + it?.release_date
-                tvInfo.text = it?.overview
-                if (it?.adult == true) tvAdult.text = "+18"
-                else tvAdult.text = "+13"
-                Glide.with(this@DetailsActivity)
-                    .load(ApiHelper.BASE_BACKDROP_PATH + (it?.backdrop_path))
-                    .error(R.drawable.ic_movie)
-                    .into(ivBackdrow)
-                Glide.with(this@DetailsActivity)
-                    .load(ApiHelper.BASE_POSTER_PATH + (it?.poster_path))
-                    .error(R.drawable.ic_movie)
-                    .into(ivPoster)
-                bind.genre.removeAllViews()
-                lifecycleScope.launch {
-                    detailVM.checkHaving()
-                }
-                for (i in 0 until (it?.genres?.size ?: 0)) {
-                    val tv = TextView(this@DetailsActivity, null, 0, R.style.tag)
-                    tv.text = it?.genres?.get(i)?.name
-                    val layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                    layoutParams.setMargins(12)
-                    tv.layoutParams = layoutParams
-                    bind.genre.addView(tv)
-                }
-                tvRating.text = it?.vote_average.toString()
-                tvMoney.text = "Доход: $" + formatNumber(it?.revenue)
-
-                loadingDialog.dismiss()
-            }
+            setUI(it)
+            loadingDialog.dismiss()
         }
         bind.btnRate.setOnClickListener {
             showProgressDialog()
@@ -109,7 +74,6 @@ class DetailsActivity : AppCompatActivity() {
 
 
     private fun formatNumber(number: Long?): String {
-
         // Барои разделить кадан разрядба
         val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
         return numberFormat.format(number)
@@ -132,5 +96,43 @@ class DetailsActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setUI(movieResult: MovieResult?) {
+        bind.apply {
+            tvTitle.text = movieResult?.title
+            tvOriginalTitle.text = movieResult?.original_title
+            tvRealise.text = "Дата релиза: " + movieResult?.release_date
+            tvInfo.text = movieResult?.overview
+            if (movieResult?.adult == true) tvAdult.text = "+18"
+            else tvAdult.text = "+13"
+            Glide.with(this@DetailsActivity)
+                .load(ApiHelper.BASE_BACKDROP_PATH + (movieResult?.backdrop_path))
+                .error(R.drawable.ic_movie)
+                .into(ivBackdrow)
+            Glide.with(this@DetailsActivity)
+                .load(ApiHelper.BASE_POSTER_PATH + (movieResult?.poster_path))
+                .error(R.drawable.ic_movie)
+                .into(ivPoster)
+            bind.genre.removeAllViews()
+            lifecycleScope.launch {
+                detailVM.checkHaving()
+            }
+            for (i in 0 until (movieResult?.genres?.size ?: 0)) {
+                val tv = TextView(this@DetailsActivity, null, 0, R.style.tag)
+                tv.text = movieResult?.genres?.get(i)?.name
+                val layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                layoutParams.setMargins(12)
+                tv.layoutParams = layoutParams
+                bind.genre.addView(tv)
+            }
+            tvRating.text = movieResult?.vote_average.toString()
+            tvMoney.text = "Доход: $" + formatNumber(movieResult?.revenue)
+
+        }
     }
 }

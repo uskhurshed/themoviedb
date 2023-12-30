@@ -122,5 +122,4 @@ class DiscoverFragment : Fragment() {
         bindDis.main.visibility = View.GONE
     }
 
-
 }

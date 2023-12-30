@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.MovieAdapter
@@ -28,6 +29,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navController = findNavController()
+        val bottom = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        if (bottom != null) {
+            if (bottom.visibility == View.GONE) bottom.visibility = View.VISIBLE
+        }
 
         viewModel.upcomingLD.observe(this.viewLifecycleOwner) {
             movieSliderAdapter = MovieSliderAdapter(it)
@@ -37,8 +43,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-
-
         val popularAdapter = MovieAdapter()
         bindHome.rvPopular.adapter = popularAdapter
         viewModel.popularLD.observe(this.viewLifecycleOwner) {
@@ -46,10 +50,11 @@ class HomeFragment : Fragment() {
         }
 
         bindHome.search.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_discoverFragment)
+            navController.navigate(R.id.action_homeFragment_to_discoverFragment)
+            bottom.visibility = View.GONE
         }
         bindHome.seeAll.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_discoverFragment)
+            navController.navigate(R.id.action_homeFragment_to_discoverFragment)
         }
 
         viewModel.error.observe(this.viewLifecycleOwner){
@@ -73,7 +78,6 @@ class HomeFragment : Fragment() {
             viewModel.error.postValue("")
             bindHome.main.removeView(v)
         }
-
         bindHome.main.addView(v)
     }
 
