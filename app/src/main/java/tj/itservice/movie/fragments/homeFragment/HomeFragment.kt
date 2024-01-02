@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = findNavController()
 
-        val bottom = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        var bottom = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         if (bottom != null) {
             if (bottom.visibility == View.GONE) bottom.visibility = View.VISIBLE
         }
@@ -50,10 +50,11 @@ class HomeFragment : Fragment() {
         viewModel.popularLD.observe(this.viewLifecycleOwner) {
             popularAdapter.addList(it)
         }
-
+//исправление
         bindHome.search.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_discoverFragment)
-            bottom.visibility = View.GONE
+                bottom = requireActivity().findViewById(R.id.bottomNavigationView)
+                bottom.visibility = View.GONE
         }
         bindHome.seeAll.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_discoverFragment)
