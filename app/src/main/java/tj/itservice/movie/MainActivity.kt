@@ -1,4 +1,4 @@
-package tj.itservice.movie.activities.main
+package tj.itservice.movie
 
 import android.os.Bundle
 import android.widget.PopupMenu

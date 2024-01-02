@@ -1,4 +1,4 @@
-package tj.itservice.movie.fragments.moreFragment
+package tj.itservice.movie.ui.moreFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

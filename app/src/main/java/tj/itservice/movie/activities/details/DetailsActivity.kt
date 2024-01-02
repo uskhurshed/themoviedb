@@ -102,17 +102,17 @@ class DetailsActivity : AppCompatActivity() {
     private fun setUI(movieResult: MovieResult?) {
         bind.apply {
             tvTitle.text = movieResult?.title
-            tvOriginalTitle.text = movieResult?.original_title
-            tvRealise.text = "Дата релиза: " + movieResult?.release_date
+            tvOriginalTitle.text = movieResult?.originalTitle
+            tvRealise.text = "Дата релиза: " + movieResult?.releaseDate
             tvInfo.text = movieResult?.overview
             if (movieResult?.adult == true) tvAdult.text = "+18"
             else tvAdult.text = "+13"
             Glide.with(this@DetailsActivity)
-                .load(ApiHelper.BASE_BACKDROP_PATH + (movieResult?.backdrop_path))
+                .load(ApiHelper.BASE_BACKDROP_PATH + (movieResult?.backdropPath))
                 .error(R.drawable.ic_movie)
                 .into(ivBackdrow)
             Glide.with(this@DetailsActivity)
-                .load(ApiHelper.BASE_POSTER_PATH + (movieResult?.poster_path))
+                .load(ApiHelper.BASE_POSTER_PATH + (movieResult?.posterPath))
                 .error(R.drawable.ic_movie)
                 .into(ivPoster)
             bind.genre.removeAllViews()
@@ -130,7 +130,7 @@ class DetailsActivity : AppCompatActivity() {
                 tv.layoutParams = layoutParams
                 bind.genre.addView(tv)
             }
-            tvRating.text = movieResult?.vote_average.toString()
+            tvRating.text = movieResult?.voteAverage.toString()
             tvMoney.text = "Доход: $" + formatNumber(movieResult?.revenue)
 
         }

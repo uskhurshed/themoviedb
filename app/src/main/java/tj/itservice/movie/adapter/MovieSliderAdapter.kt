@@ -2,7 +2,6 @@ package tj.itservice.movie.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,12 +30,12 @@ class MovieSliderAdapter(private var movies: ArrayList<MovieResult>): SliderView
         val movie = movies[position]
         Glide
             .with(viewHolder!!.itemView.context)
-            .load(ApiHelper.BASE_BACKDROP_PATH+(movie.backdrop_path))
+            .load(ApiHelper.BASE_BACKDROP_PATH+(movie.backdropPath))
             .into(viewHolder.poster)
         if(movie.adult) viewHolder.adultCheck.text = "18+"
         else viewHolder.adultCheck.text = "13+"
         viewHolder.movieTitle.text = movie.title
-        viewHolder.releaseDate.text = "Дата релиза: " + movie.release_date
+        viewHolder.releaseDate.text = "Дата релиза: " + movie.releaseDate
 
         viewHolder.itemView.setOnClickListener {
             val intent = Intent(viewHolder.itemView.context, DetailsActivity::class.java)

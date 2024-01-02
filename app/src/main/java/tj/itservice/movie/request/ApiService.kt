@@ -15,11 +15,6 @@ import tj.itservice.movie.utils.ApiHelper
 
 interface ApiService {
 
-//    HEADER - добавляет заголовки в запрос (если нужно)
-//    GET — запрашивает данные с определенного сайта
-//    POST — отправляет данные на сервер для последующей обработки
-//    HTTP, GET, POST, PUT, PATCH, DELETE, OPTIONS
-
 
     @GET(ApiHelper.UPCOMING_MOVIE)
     @Headers("Authorization: Bearer " + ApiHelper.HEADER_API_KEY)

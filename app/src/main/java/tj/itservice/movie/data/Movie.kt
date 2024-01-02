@@ -1,9 +1,15 @@
 package tj.itservice.movie.data
 
+import com.google.gson.annotations.SerializedName
+
 data class Movie(
+    @SerializedName("page")
     val page: Int,
+    @SerializedName("results")
     val results: ArrayList<MovieResult>,
-    val total_pages: Int,
-    val total_results: Int
+    @SerializedName("total_pages")
+    val totalPages: Int,
+    @SerializedName("total_results")
+    val totalResults: Int
 )
 

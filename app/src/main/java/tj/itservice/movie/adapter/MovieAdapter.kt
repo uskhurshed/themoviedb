@@ -1,6 +1,7 @@
 package tj.itservice.movie.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +27,7 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             typeRegular -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movies, parent, false)
                 MovieViewHolder(view)
-            }
-            typeShimmer -> {
+            } typeShimmer -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.shimmer_item_movies, parent, false)
                 ShimmerViewHolder(view)
             }
@@ -41,16 +41,14 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val movieResult = movieList[position]
 
                 Glide.with(holder.itemView.context)
-                    .load(ApiHelper.BASE_POSTER_PATH + movieResult.poster_path)
+                    .load(ApiHelper.BASE_POSTER_PATH + movieResult.posterPath)
                     .placeholder(R.drawable.ic_movie)
                     .into(holder.imageView)
 
-                holder.ratingTextView.text = movieResult.vote_average.toString()
-                holder.langTextView.text = movieResult.original_language
+                holder.ratingTextView.text = movieResult.voteAverage.toString()
+                holder.langTextView.text = movieResult.originalLanguage
                 holder.itemView.setOnClickListener {
-                    val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
-                    intent.putExtra("id",movieResult.id)
-                    holder.itemView.context.startActivity(intent)
+                    openActivity(holder.itemView.context,movieResult.id)
                 }
             }
             is ShimmerViewHolder -> {
@@ -84,6 +82,12 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class ShimmerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val shimmerLayout: ShimmerFrameLayout = itemView.findViewById(R.id.movieCard)
+    }
+
+    private fun openActivity(context:Context, id: Long?){
+        val intent = Intent(context, DetailsActivity::class.java)
+        intent.putExtra("id",id)
+        context.startActivity(intent)
     }
 
 

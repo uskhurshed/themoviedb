@@ -1,4 +1,4 @@
-package tj.itservice.movie.fragments.homeFragment
+package tj.itservice.movie.ui.homeFragment
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

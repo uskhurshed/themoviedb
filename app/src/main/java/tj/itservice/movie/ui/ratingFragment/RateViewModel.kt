@@ -1,4 +1,4 @@
-package tj.itservice.movie.fragments.ratingFragment
+package tj.itservice.movie.ui.ratingFragment
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

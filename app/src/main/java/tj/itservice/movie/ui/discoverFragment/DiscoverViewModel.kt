@@ -1,4 +1,4 @@
-package tj.itservice.movie.fragments.discoverFragment
+package tj.itservice.movie.ui.discoverFragment
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

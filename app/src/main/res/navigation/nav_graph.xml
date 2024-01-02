@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="tj.itservice.movie.fragments.homeFragment.HomeFragment"
+        android:name="tj.itservice.movie.ui.homeFragment.HomeFragment"
         android:label="home_fragment" >
         <action
             android:id="@+id/action_homeFragment_to_ratingFragment"
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="tj.itservice.movie.fragments.favoriteFragment.FavoriteFragment"
+        android:name="tj.itservice.movie.ui.favoriteFragment.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" >
         <action
@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/ratingFragment"
-        android:name="tj.itservice.movie.fragments.ratingFragment.RatingFragment"
+        android:name="tj.itservice.movie.ui.ratingFragment.RatingFragment"
         android:label="fragment_rating"
         tools:layout="@layout/fragment_rating" >
         <action
@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/discoverFragment"
-        android:name="tj.itservice.movie.fragments.discoverFragment.DiscoverFragment"
+        android:name="tj.itservice.movie.ui.discoverFragment.DiscoverFragment"
         android:label="DiscoverFragment" >
         <action
             android:id="@+id/action_discoverFragment_to_homeFragment"
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/moreFragment"
-        android:name="tj.itservice.movie.fragments.moreFragment.MoreFragment"
+        android:name="tj.itservice.movie.ui.moreFragment.MoreFragment"
         android:label="fragment_more"
         tools:layout="@layout/fragment_more" >
         <action

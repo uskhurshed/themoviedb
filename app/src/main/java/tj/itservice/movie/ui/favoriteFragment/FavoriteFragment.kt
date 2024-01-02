@@ -1,4 +1,4 @@
-package tj.itservice.movie.fragments.favoriteFragment
+package tj.itservice.movie.ui.favoriteFragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle

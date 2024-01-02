@@ -1,4 +1,4 @@
-package tj.itservice.movie.fragments.homeFragment
+package tj.itservice.movie.ui.homeFragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

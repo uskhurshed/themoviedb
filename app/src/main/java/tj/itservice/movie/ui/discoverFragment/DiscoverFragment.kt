@@ -1,4 +1,4 @@
-package tj.itservice.movie.fragments.discoverFragment
+package tj.itservice.movie.ui.discoverFragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.DiscoverAdapter
 import tj.itservice.movie.databinding.FragmentDiscoverBinding
-import tj.itservice.movie.fragments.homeFragment.HomeViewModel
+import tj.itservice.movie.ui.homeFragment.HomeViewModel
 import tj.itservice.movie.utils.LoadingDialog
 
 
