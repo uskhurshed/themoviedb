@@ -30,10 +30,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = findNavController()
+
         val bottom = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         if (bottom != null) {
             if (bottom.visibility == View.GONE) bottom.visibility = View.VISIBLE
         }
+
 
         viewModel.upcomingLD.observe(this.viewLifecycleOwner) {
             movieSliderAdapter = MovieSliderAdapter(it)
