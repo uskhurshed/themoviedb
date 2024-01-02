@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
         viewModel.popularLD.observe(this.viewLifecycleOwner) {
             popularAdapter.addList(it)
         }
-//исправление
+        //исправление
         bindHome.search.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_discoverFragment)
                 bottom = requireActivity().findViewById(R.id.bottomNavigationView)
