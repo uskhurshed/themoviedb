@@ -1,8 +1,6 @@
 package tj.itservice.movie.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 import tj.itservice.movie.R
-import tj.itservice.movie.activities.details.DetailsActivity
 import tj.itservice.movie.data.MovieResult
+import tj.itservice.movie.interfaces.DetailsListener
 import tj.itservice.movie.utils.ApiHelper
 
 class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -21,6 +19,7 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val typeRegular = 1
     private val typeShimmer = 2
     var movieList:ArrayList<MovieResult> = ArrayList()
+    var mListener: DetailsListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -48,7 +47,7 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.ratingTextView.text = movieResult.voteAverage.toString()
                 holder.langTextView.text = movieResult.originalLanguage
                 holder.itemView.setOnClickListener {
-                    openActivity(holder.itemView.context,movieResult.id)
+                    mListener?.setClick(movieResult.id)
                 }
             }
             is ShimmerViewHolder -> {
@@ -84,11 +83,6 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val shimmerLayout: ShimmerFrameLayout = itemView.findViewById(R.id.movieCard)
     }
 
-    private fun openActivity(context:Context, id: Long?){
-        val intent = Intent(context, DetailsActivity::class.java)
-        intent.putExtra("id",id)
-        context.startActivity(intent)
-    }
 
 
 }

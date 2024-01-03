@@ -15,13 +15,12 @@ import tj.itservice.movie.utils.ApiHelper
 
 interface ApiService {
 
-
     @GET(ApiHelper.UPCOMING_MOVIE)
     @Headers("Authorization: Bearer " + ApiHelper.HEADER_API_KEY)
     suspend fun getUpcomingMovie(
         @Query("page") page: Int?,
-        @Query("language") language: String = ApiHelper.LANGUAGE
-    ): Movie
+        @Query("language") language: String = ApiHelper.LANGUAGE)
+    : Movie
 
     @GET(ApiHelper.POPULAR_MOVIE)
     @Headers("Authorization: Bearer " + ApiHelper.HEADER_API_KEY)
@@ -32,7 +31,9 @@ interface ApiService {
 
     @GET(ApiHelper.TOP_RATED_MOVIE)
     @Headers("Authorization: Bearer " + ApiHelper.HEADER_API_KEY)
-    suspend fun getTopRatedMovie(@Query("page") page: Int?): Movie
+    suspend fun getTopRatedMovie(
+        @Query("page") page: Int?)
+    : Movie
 
 
     @GET("3/search/movie")
@@ -44,19 +45,24 @@ interface ApiService {
 
     @Headers("Authorization: Bearer " + ApiHelper.HEADER_API_KEY)
     @POST("${ApiHelper.MOVIE_DETAILS}/rating")
-    suspend fun rateMovie(@Path("movieId") movieId: Long, @Body ratingRequestBody: RequestBody):ResponseBody
+    suspend fun rateMovie(
+        @Path("movieId") movieId: Long,
+        @Body ratingRequestBody: RequestBody)
+    :ResponseBody
 
     @Headers("Authorization: Bearer " + ApiHelper.HEADER_API_KEY)
     @DELETE("${ApiHelper.MOVIE_DETAILS}/rating")
-    suspend fun deleteMovieRate(@Path("movieId") movieId: Long): ResponseBody
+    suspend fun deleteMovieRate(
+        @Path("movieId") movieId: Long)
+    : ResponseBody
 
 
     @Headers("Authorization: Bearer " + ApiHelper.HEADER_API_KEY)
     @GET("3/movie/{movie_id}")
-    suspend fun getDetails(@Path("movie_id") movieId: Long, @Query("language") language: String = "ru-RU"
+    suspend fun getDetails(
+        @Path("movie_id") movieId: Long,
+        @Query("language") language: String = "ru-RU"
     ): MovieResult?
-
-
 
 }
 

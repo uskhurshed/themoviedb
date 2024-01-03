@@ -1,4 +1,4 @@
-package tj.itservice.movie.ui.ratingFragment
+package tj.itservice.movie.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.MovieAdapter
 import tj.itservice.movie.databinding.FragmentRatingBinding
+import tj.itservice.movie.interfaces.DetailsListener
+import tj.itservice.movie.ui.viewmodels.RateViewModel
 
 @AndroidEntryPoint
 class RatingFragment : Fragment() {
@@ -27,6 +31,9 @@ class RatingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+         showBottomNav()
+
         adapter  = MovieAdapter()
         bindRate.rvTop.adapter = adapter
         viewModel.rateLD.observe(viewLifecycleOwner){
@@ -37,6 +44,18 @@ class RatingFragment : Fragment() {
         viewModel.error.observe(this.viewLifecycleOwner){
             if (it != "") showErrorMessage()
             else hideErrorMessage()
+        }
+
+
+        adapter.mListener = object : DetailsListener {
+            override fun setClick(id: Long?) {
+                id?.let {
+                    val bundle = Bundle().apply { putLong("id", it) }
+                    findNavController().navigate(R.id.action_ratingFragment_to_detailsFragment, bundle)
+                    val bottomNavigationView = requireActivity().findViewById<View>(R.id.bottomNavigationView)
+                    bottomNavigationView.visibility = View.GONE
+                }
+            }
         }
 
     }
@@ -51,6 +70,7 @@ class RatingFragment : Fragment() {
             }
         })
     }
+
     private fun showErrorMessage() {
         bindRate.rvTop.visibility = View.GONE
 
@@ -70,6 +90,10 @@ class RatingFragment : Fragment() {
 
     private fun hideErrorMessage() {
         bindRate.rvTop.visibility = View.VISIBLE
+    }
+    private fun showBottomNav(){
+        val bottom = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        if (bottom != null) if (bottom.visibility == View.GONE) bottom.visibility = View.VISIBLE
     }
 
 }

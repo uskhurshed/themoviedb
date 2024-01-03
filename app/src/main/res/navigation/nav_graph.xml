@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="tj.itservice.movie.ui.homeFragment.HomeFragment"
+        android:name="tj.itservice.movie.ui.fragments.HomeFragment"
         android:label="home_fragment" >
         <action
             android:id="@+id/action_homeFragment_to_ratingFragment"
@@ -27,10 +27,13 @@
         <action
             android:id="@+id/action_homeFragment_to_discoverFragment2"
             app:destination="@id/discoverFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="tj.itservice.movie.ui.favoriteFragment.FavoriteFragment"
+        android:name="tj.itservice.movie.ui.fragments.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" >
         <action
@@ -42,10 +45,13 @@
         <action
             android:id="@+id/action_favoriteFragment_to_moreFragment"
             app:destination="@id/moreFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/ratingFragment"
-        android:name="tj.itservice.movie.ui.ratingFragment.RatingFragment"
+        android:name="tj.itservice.movie.ui.fragments.RatingFragment"
         android:label="fragment_rating"
         tools:layout="@layout/fragment_rating" >
         <action
@@ -57,10 +63,13 @@
         <action
             android:id="@+id/action_ratingFragment_to_moreFragment"
             app:destination="@id/moreFragment" />
+        <action
+            android:id="@+id/action_ratingFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/discoverFragment"
-        android:name="tj.itservice.movie.ui.discoverFragment.DiscoverFragment"
+        android:name="tj.itservice.movie.ui.fragments.DiscoverFragment"
         android:label="DiscoverFragment" >
         <action
             android:id="@+id/action_discoverFragment_to_homeFragment"
@@ -69,10 +78,13 @@
         <action
             android:id="@+id/action_discoverFragment_to_homeFragment2"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_discoverFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/moreFragment"
-        android:name="tj.itservice.movie.ui.moreFragment.MoreFragment"
+        android:name="tj.itservice.movie.ui.fragments.MoreFragment"
         android:label="fragment_more"
         tools:layout="@layout/fragment_more" >
         <action
@@ -83,6 +95,20 @@
             app:destination="@id/ratingFragment" />
         <action
             android:id="@+id/action_moreFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="tj.itservice.movie.ui.fragments.DetailsFragment"
+        android:label="DetailsFragment" >
+        <action
+            android:id="@+id/action_detailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_discoverFragment"
+            app:destination="@id/discoverFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
     </fragment>
 </navigation>

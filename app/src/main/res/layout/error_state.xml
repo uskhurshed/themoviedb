@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/error_state"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
@@ -13,14 +14,15 @@
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_wifi_off"
-        app:tint="@color/seed" />
+        app:tint="@color/seed"
+        android:importantForAccessibility="no" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Попытка установления соединения не удачна. "
+        android:text="@string/internet_error"
         android:textColor="?attr/actionMenuTextColor"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -31,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Повторить"
+        android:text="@string/retry"
         android:textColor="#FFFFFF" />
 
 </LinearLayout>

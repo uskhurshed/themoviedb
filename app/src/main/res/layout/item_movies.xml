@@ -29,7 +29,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_movie" />
+                app:srcCompat="@drawable/ic_movie"
+                android:importantForAccessibility="no" />
 
             <TextView
                 android:id="@+id/tv_rating"
@@ -42,7 +43,7 @@
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:paddingEnd="5dp"
-                android:text="8.7"
+                android:text="@string/_0_00"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/ic_rate"
                 app:drawableTint="#FF963B"
@@ -59,7 +60,7 @@
                 android:backgroundTint="#3F51B5"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:text="EN"
+                android:text="@string/en"
                 android:textAllCaps="true"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"

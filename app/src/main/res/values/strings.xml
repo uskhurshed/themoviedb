@@ -17,4 +17,9 @@
     <string name="nv_top">Рейтинг</string>
     <string name="nv_fav">Избранные</string>
     <string name="nv_more">Еще</string>
+    <string name="internet_error">Попытка установления соединения не удачна.</string>
+    <string name="retry">Повторить</string>
+    <string name="description">Описание:</string>
+    <string name="_0_00">0.00</string>
+    <string name="en">EN</string>
 </resources>

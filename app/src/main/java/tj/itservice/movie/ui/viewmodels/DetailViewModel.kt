@@ -1,4 +1,4 @@
-package tj.itservice.movie.activities.details
+package tj.itservice.movie.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -10,16 +10,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import tj.itservice.movie.App
 import tj.itservice.movie.data.MovieResult
+import tj.itservice.movie.db.MovieDao
 import tj.itservice.movie.di.Repository
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val postRepository: Repository): ViewModel() {
+class DetailViewModel @Inject constructor(private val postRepository: Repository, private val movieDao: MovieDao): ViewModel() {
 
     val detailLD: MutableLiveData<MovieResult?> = MutableLiveData()
-    private val movieDao = App.database.movieDao()
     val isFavorite = MutableLiveData<Boolean>()
     val error: MutableLiveData<String> = MutableLiveData()
     private var movie:MovieResult? = null

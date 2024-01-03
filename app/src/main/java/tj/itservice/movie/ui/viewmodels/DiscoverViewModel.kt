@@ -1,4 +1,4 @@
-package tj.itservice.movie.ui.discoverFragment
+package tj.itservice.movie.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -14,14 +14,14 @@ import javax.inject.Inject
 class DiscoverViewModel
 @Inject constructor(private val postRepository: Repository) : ViewModel() {
 
-    val searchLD: MutableLiveData<ArrayList<MovieResult>> = MutableLiveData()
+    val movieList: MutableLiveData<ArrayList<MovieResult>> = MutableLiveData()
     val error: MutableLiveData<String> = MutableLiveData()
 
     fun getSearch(searchQuery: String) {
         viewModelScope.launch {
             try {
                 val results = postRepository.getMovieByQuery(searchQuery)
-                searchLD.postValue(results.results)
+                movieList.postValue(results.results)
             } catch (e: Exception) {
                 Log.d("main", "getPost: ${e.message}")
                 error.postValue(e.message)

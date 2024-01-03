@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
@@ -22,7 +21,8 @@
             app:backgroundTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
-            app:tint="@null" />
+            app:tint="@null"
+            android:importantForAccessibility="no" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_rate"
@@ -34,14 +34,15 @@
             app:backgroundTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintStart_toEndOf="@+id/cardView"
-            app:tint="@null" />
+            app:tint="@null"
+            android:importantForAccessibility="no" />
 
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
-            android:text="Загрузка..."
+            android:text="@string/loading"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_title2"
             app:layout_constraintStart_toStartOf="@+id/tv_title2"
@@ -52,7 +53,7 @@
             style="@style/tag"
             android:layout_marginTop="8dp"
             android:backgroundTint="#4FCF55"
-            android:text="Доход:"
+            android:text="@string/loading"
             app:layout_constraintEnd_toEndOf="@id/genreScroll"
             app:layout_constraintStart_toStartOf="@id/genreScroll"
             app:layout_constraintTop_toBottomOf="@+id/genreScroll" />
@@ -69,11 +70,11 @@
 
             <LinearLayout
                 android:id="@+id/genre"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"/>
+                android:paddingStart="10dp" />
         </HorizontalScrollView>
 
         <TextView
@@ -85,8 +86,7 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/inter_bold"
             android:maxLines="2"
-            android:text="Описание: "
-            android:textColor="@color/m3_default_color_secondary_text"
+            android:text="@string/description"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:maxLines="2"
-            android:text="21/08/2022"
+            android:text="@string/loading"
             android:textColor="#FF963B"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_original_title"
@@ -113,15 +113,15 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:drawablePadding="10dp"
-            android:drawableTint="#FF963B"
             android:fontFamily="@font/inter_bold"
             android:gravity="center_vertical"
-            android:text="8.86"
+            android:text="@string/_0_00"
             android:textColor="#FF963B"
             app:drawableStartCompat="@drawable/ic_rate"
             app:layout_constraintEnd_toEndOf="@+id/tv_original_title"
             app:layout_constraintStart_toStartOf="@+id/tv_original_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_original_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_original_title"
+            app:drawableTint="#FF963B" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -133,7 +133,7 @@
             android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:maxLines="2"
-            android:text="Название фильма"
+            android:text="@string/loading"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -144,7 +144,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="movie name"
+            android:text="@string/loading"
             android:textColor="#9C9C9C"
             app:layout_constraintEnd_toEndOf="@+id/tv_title"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -166,7 +166,8 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:importantForAccessibility="no" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -175,9 +176,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/bg_curr"
-            android:backgroundTint="#3BFBFBFB"
+            android:backgroundTint="@color/blur_transparent"
+            android:importantForAccessibility="no"
             android:padding="10dp"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +210,6 @@
                 android:layout_gravity="end"
                 android:fontFamily="@font/inter_bold"
                 android:padding="5dp"
-                android:text="18+"
                 android:textColor="#FFFFFF" />
 
         </androidx.cardview.widget.CardView>

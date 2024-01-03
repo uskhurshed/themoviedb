@@ -1,4 +1,4 @@
-package tj.itservice.movie.ui.discoverFragment
+package tj.itservice.movie.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,7 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.DiscoverAdapter
 import tj.itservice.movie.databinding.FragmentDiscoverBinding
-import tj.itservice.movie.ui.homeFragment.HomeViewModel
+import tj.itservice.movie.interfaces.DetailsListener
+import tj.itservice.movie.ui.viewmodels.DiscoverViewModel
+import tj.itservice.movie.ui.viewmodels.HomeViewModel
 import tj.itservice.movie.utils.LoadingDialog
 
 
@@ -60,7 +62,7 @@ class DiscoverFragment : Fragment() {
             false
         }
 
-        discVM.searchLD.observe(viewLifecycleOwner) {
+        discVM.movieList.observe(viewLifecycleOwner) {
             loadingDialog.dismiss()
             adapter.movieList = it
             adapter.notifyDataSetChanged()
@@ -76,10 +78,25 @@ class DiscoverFragment : Fragment() {
             if (it != "") showErrorMessage()
             else hideErrorMessage()
         }
-        mainVM.error.observe(this.viewLifecycleOwner) {
-            if (it != "") showErrorMessage()
-            else hideErrorMessage()
+//        mainVM.error.observe(this.viewLifecycleOwner) {
+//            if (it != "") showErrorMessage()
+//            else hideErrorMessage()
+//        }
+
+
+        adapter.mListener = object : DetailsListener {
+            override fun setClick(id: Long?) {
+                id?.let {
+                    val bundle = Bundle().apply {
+                        putLong("id", it)
+                    }
+                    findNavController().navigate(R.id.action_discoverFragment_to_detailsFragment, bundle)
+                    val bottomNavigationView = requireActivity().findViewById<View>(R.id.bottomNavigationView)
+                    bottomNavigationView.visibility = View.GONE
+                }
+            }
         }
+
     }
 
 
@@ -108,7 +125,7 @@ class DiscoverFragment : Fragment() {
             adapter.movieList.clear()
             loadingDialog.show()
             hideErrorMessage()
-            mainVM.error.postValue("")
+//            mainVM.error.postValue("")
             bindDis.main.removeView(v)
             adapter.notifyDataSetChanged()
         }

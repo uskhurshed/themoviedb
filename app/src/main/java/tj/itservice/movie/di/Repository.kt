@@ -36,4 +36,5 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     suspend fun deleteRate(movieID: Long): ResponseBody = withContext(Dispatchers.IO) {
         return@withContext apiService.deleteMovieRate(movieID)
     }
+
 }

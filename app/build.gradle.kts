@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "tj.itservice.movie"
-    compileSdk = 34
 
     defaultConfig {
         applicationId = "tj.itservice.movie"
         minSdk = 24
+        compileSdk = 34
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -32,6 +32,7 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        dataBinding = true
         buildConfig = true
     }
 }
@@ -47,8 +48,11 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+
+    implementation("com.squareup.moshi:moshi:1.15.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
 
     //Загрузка изображение
     implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -57,7 +61,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     //DependencyInject
-    implementation("com.google.dagger:hilt-android:2.46.1")
+    implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-android-compiler:2.46.1")
 
     //Shimmer
@@ -67,7 +71,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
 
-
     //Слайдер
     implementation("com.github.smarteist:autoimageslider:1.4.0")
 
@@ -75,7 +78,8 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.2.0")
 
     //База данных
-    implementation("androidx.room:room-runtime:2.3.0")
-    kapt("androidx.room:room-compiler:2.3.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    //noinspection KaptUsageInsteadOfKsp
+    kapt("androidx.room:room-compiler:2.6.1")
 
 }

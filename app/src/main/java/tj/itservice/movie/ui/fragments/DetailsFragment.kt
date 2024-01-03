@@ -1,67 +1,77 @@
-package tj.itservice.movie.activities.details
+package tj.itservice.movie.ui.fragments
 
-import android.R.attr.value
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setMargins
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import tj.itservice.movie.R
 import tj.itservice.movie.data.MovieResult
-import tj.itservice.movie.databinding.ActivityDetailsBinding
+import tj.itservice.movie.databinding.FragmentDetailsBinding
+import tj.itservice.movie.ui.viewmodels.DetailViewModel
 import tj.itservice.movie.utils.ApiHelper
 import tj.itservice.movie.utils.LoadingDialog
 import tj.itservice.movie.utils.RateDialog
 import java.text.NumberFormat
-import java.util.Locale
+import java.util.*
 
 
 @AndroidEntryPoint
-class DetailsActivity : AppCompatActivity() {
-    private lateinit var bind: ActivityDetailsBinding
-    private lateinit var detailVM: DetailViewModel
-    private val rateDialog = RateDialog(this)
-    var id: Long = 0
+class DetailsFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bind = ActivityDetailsBinding.inflate(layoutInflater)
-        setContentView(bind.root)
+    private lateinit var bind: FragmentDetailsBinding
 
+    private val detailVM by viewModels<DetailViewModel>()
+    private val rateDialog by lazy { RateDialog(requireActivity()) }
 
-        id = intent.getLongExtra("id", 25)
-        val loadingDialog = LoadingDialog(this)
+    private var id: Long = 0
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        bind = FragmentDetailsBinding.inflate(inflater, container, false)
+        return bind.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val loadingDialog = LoadingDialog(requireContext())
         loadingDialog.show()
 
+        id = arguments?.getLong("id", 25) ?: 25
 
-        detailVM = ViewModelProvider(this)[DetailViewModel::class.java]
-        detailVM.error.observe(this){
-            Toast.makeText(this,it,Toast.LENGTH_SHORT).show()
-            finish()
+        detailVM.error.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            activity?.finish()
         }
 
         detailVM.load(id)
-        detailVM.detailLD.observe(this) {
+        detailVM.detailLD.observe(viewLifecycleOwner) {
             setUI(it)
             loadingDialog.dismiss()
         }
+
         bind.btnRate.setOnClickListener {
             showProgressDialog()
         }
+
         bind.btnBack.setOnClickListener {
-            finish()
+          findNavController().navigateUp()
         }
 
-        detailVM.isFavorite.observe(this) { isFavorite ->
+        detailVM.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
             if (isFavorite) bind.btnFav.setImageResource(R.drawable.ic_favorite_del)
-             else bind.btnFav.setImageResource(R.drawable.ic_favorite)
+            else bind.btnFav.setImageResource(R.drawable.ic_favorite)
         }
 
         bind.btnFav.setOnClickListener {
@@ -69,33 +79,27 @@ class DetailsActivity : AppCompatActivity() {
                 detailVM.toggleFavorite()
             }
         }
-
     }
 
-
     private fun formatNumber(number: Long?): String {
-        // Барои разделить кадан разрядба
         val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
         return numberFormat.format(number)
     }
 
-
-    @SuppressLint("SetTextI18n")
     private fun showProgressDialog() {
         rateDialog.show()
 
         rateDialog.setOnRateListener { rating ->
             detailVM.rate(id, (rating * 2).toInt()) { message ->
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
         }
 
         rateDialog.setOnDeleteListener {
             detailVM.deleteRate(id) { message ->
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -107,11 +111,11 @@ class DetailsActivity : AppCompatActivity() {
             tvInfo.text = movieResult?.overview
             if (movieResult?.adult == true) tvAdult.text = "+18"
             else tvAdult.text = "+13"
-            Glide.with(this@DetailsActivity)
+            Glide.with(requireContext())
                 .load(ApiHelper.BASE_BACKDROP_PATH + (movieResult?.backdropPath))
                 .error(R.drawable.ic_movie)
                 .into(ivBackdrow)
-            Glide.with(this@DetailsActivity)
+            Glide.with(requireContext())
                 .load(ApiHelper.BASE_POSTER_PATH + (movieResult?.posterPath))
                 .error(R.drawable.ic_movie)
                 .into(ivPoster)
@@ -120,7 +124,7 @@ class DetailsActivity : AppCompatActivity() {
                 detailVM.checkHaving()
             }
             for (i in 0 until (movieResult?.genres?.size ?: 0)) {
-                val tv = TextView(this@DetailsActivity, null, 0, R.style.tag)
+                val tv = TextView(requireContext(), null, 0, R.style.tag)
                 tv.text = movieResult?.genres?.get(i)?.name
                 val layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -132,7 +136,10 @@ class DetailsActivity : AppCompatActivity() {
             }
             tvRating.text = movieResult?.voteAverage.toString()
             tvMoney.text = "Доход: $" + formatNumber(movieResult?.revenue)
-
         }
     }
+
+
+
+
 }

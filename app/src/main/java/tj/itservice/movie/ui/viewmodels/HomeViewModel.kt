@@ -1,4 +1,4 @@
-package tj.itservice.movie.ui.homeFragment
+package tj.itservice.movie.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +16,7 @@ class HomeViewModel
 
     val upcomingLD: MutableLiveData<ArrayList<MovieResult>> = MutableLiveData()
     val popularLD: MutableLiveData<ArrayList<MovieResult>> = MutableLiveData()
-    val error: MutableLiveData<String> = MutableLiveData()
+    val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     private var popularPage:Int = 1
 
 
@@ -35,9 +35,10 @@ class HomeViewModel
             try {
                 val response = postRepository.getUpcomingMovie()
                 upcomingLD.postValue(response.results)
+                isErrorVisible.postValue(false)
             } catch (e: Exception) {
                 Log.e("main", "getUpcoming: ${e.message}")
-                error.postValue(e.message)
+                isErrorVisible.postValue(true)
             }
         }
     }
@@ -50,9 +51,10 @@ class HomeViewModel
                 popularLD.postValue(response.results)
                 Log.e("mainVM", "${response.results}")
                 popularPage ++
+                isErrorVisible.postValue(false)
             } catch (e: Exception) {
                 Log.e("main", "getPost: ${e.message}")
-                error.postValue(e.message)
+                isErrorVisible.postValue(true)
             }
         }
     }

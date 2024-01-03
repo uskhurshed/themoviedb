@@ -21,7 +21,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_movie" />
+            app:srcCompat="@drawable/ic_movie"
+            android:importantForAccessibility="no" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -38,7 +39,7 @@
                 android:drawablePadding="5dp"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:text="10.0"
+                android:text="@string/_0_00"
                 app:drawableStartCompat="@drawable/ic_rate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +54,7 @@
                 android:background="@drawable/bg_curr"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:text="EN"
+                android:text="@string/en"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

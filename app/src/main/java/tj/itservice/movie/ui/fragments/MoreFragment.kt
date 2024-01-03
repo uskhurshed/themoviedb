@@ -1,4 +1,4 @@
-package tj.itservice.movie.ui.moreFragment
+package tj.itservice.movie.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +22,7 @@ class MoreFragment : Fragment() {
         bindMore = FragmentMoreBinding.inflate(inflater, container, false)
         return bindMore.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -33,6 +34,7 @@ class MoreFragment : Fragment() {
                 true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
+
         }
             bindMore.btnRate.setOnClickListener { goWithUrl(requireContext(),"https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}") }
             bindMore.btnApps.setOnClickListener { goWithUrl(requireContext(),"https://play.google.com/store/apps/dev?id=7468148183308310395") }
