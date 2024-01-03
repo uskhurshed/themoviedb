@@ -19,7 +19,7 @@ import tj.itservice.movie.adapter.DiscoverAdapter
 import tj.itservice.movie.data.MovieResult
 import tj.itservice.movie.databinding.FragmentFavoriteBinding
 import tj.itservice.movie.db.MovieDao
-import tj.itservice.movie.interfaces.DetailsListener
+import tj.itservice.movie.ui.interfaces.DetailsListener
 import javax.inject.Inject
 
 @AndroidEntryPoint

@@ -14,7 +14,7 @@ import javax.inject.Inject
 class DiscoverViewModel
 @Inject constructor(private val postRepository: Repository) : ViewModel() {
 
-    val movieList: MutableLiveData<ArrayList<MovieResult>> = MutableLiveData()
+    val movieList: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val error: MutableLiveData<String> = MutableLiveData()
 
     fun getSearch(searchQuery: String) {

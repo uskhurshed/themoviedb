@@ -1,14 +1,14 @@
 package tj.itservice.movie.data
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class Movie(
-    @SerializedName("page")
+    @Json(name = "page")
     val page: Int,
-    @SerializedName("results")
-    val results: ArrayList<MovieResult>,
-    @SerializedName("total_pages")
+    @Json(name = "results")
+    val results: List<MovieResult>,
+    @Json(name = "total_pages")
     val totalPages: Int,
-    @SerializedName("total_results")
+    @Json(name = "total_results")
     val totalResults: Int
 )

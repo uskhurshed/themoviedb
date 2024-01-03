@@ -14,7 +14,7 @@ import tj.itservice.movie.R
 import tj.itservice.movie.adapter.MovieAdapter
 import tj.itservice.movie.adapter.MovieSliderAdapter
 import tj.itservice.movie.databinding.FragmentHomeBinding
-import tj.itservice.movie.interfaces.DetailsListener
+import tj.itservice.movie.ui.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.HomeViewModel
 
 @AndroidEntryPoint
@@ -48,9 +48,7 @@ class HomeFragment : Fragment() {
             popularAdapter.addList(it)
         }
         popularAdapter.mListener = object : DetailsListener {
-            override fun setClick(id: Long?) {
-                id?.let { navigateToDetails(it) }
-            }
+            override fun setClick(id: Long?) { id?.let { navigateToDetails(it) } }
         }
         observeErrors()
         setupNavigationListeners()

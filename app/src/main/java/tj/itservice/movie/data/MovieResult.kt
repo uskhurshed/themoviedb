@@ -2,45 +2,46 @@ package tj.itservice.movie.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 
+import com.squareup.moshi.Json
 @Entity(tableName = "favorite_movies")
+
 data class MovieResult(
     @PrimaryKey(autoGenerate = false)
     val id: Long?,
 
-    @SerializedName("adult")
+    @Json(name = "adult")
     val adult: Boolean,
 
-    @SerializedName("backdrop_path")
+    @Json(name = "backdrop_path")
     val backdropPath: String?,
 
-    @SerializedName("original_language")
+    @Json(name = "original_language")
     val originalLanguage: String?,
 
-    @SerializedName("overview")
+    @Json(name = "overview")
     val overview: String?,
 
-    @SerializedName("poster_path")
+    @Json(name = "poster_path")
     val posterPath: String?,
 
-    @SerializedName("release_date")
+    @Json(name = "release_date")
     val releaseDate: String?,
 
-    @SerializedName("title")
+    @Json(name = "title")
     val title: String?,
 
-    @SerializedName("vote_average")
+    @Json(name = "vote_average")
     val voteAverage: Double?,
 
-    @SerializedName("revenue")
+    @Json(name = "revenue")
     val revenue: Long?,
 
-    @SerializedName("original_title")
+    @Json(name = "original_title")
     val originalTitle: String?,
 
-    @SerializedName("genres")
-    val genres: List<Genres?>?
+    @Json(name = "genres")
+    val genres: List<Genres>?
 )
 
 

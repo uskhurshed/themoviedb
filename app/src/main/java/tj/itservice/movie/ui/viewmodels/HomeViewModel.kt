@@ -14,8 +14,8 @@ import javax.inject.Inject
 class HomeViewModel
 @Inject constructor(private val postRepository: Repository) : ViewModel() {
 
-    val upcomingLD: MutableLiveData<ArrayList<MovieResult>> = MutableLiveData()
-    val popularLD: MutableLiveData<ArrayList<MovieResult>> = MutableLiveData()
+    val upcomingLD: MutableLiveData<List<MovieResult>> = MutableLiveData()
+    val popularLD: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     private var popularPage:Int = 1
 
@@ -36,12 +36,14 @@ class HomeViewModel
                 val response = postRepository.getUpcomingMovie()
                 upcomingLD.postValue(response.results)
                 isErrorVisible.postValue(false)
+                Log.e("response", "${response.results}")
             } catch (e: Exception) {
-                Log.e("main", "getUpcoming: ${e.message}")
+                Log.e("response", "Error getUpcoming: $e")
                 isErrorVisible.postValue(true)
             }
         }
     }
+
 
 
     fun getPopulars() {
@@ -49,11 +51,11 @@ class HomeViewModel
             try {
                 val response = postRepository.getPopularMovie(popularPage)
                 popularLD.postValue(response.results)
-                Log.e("mainVM", "${response.results}")
                 popularPage ++
                 isErrorVisible.postValue(false)
+                Log.e("response", "${response.results}")
             } catch (e: Exception) {
-                Log.e("main", "getPost: ${e.message}")
+                Log.e("response", "Error getPost: $e")
                 isErrorVisible.postValue(true)
             }
         }

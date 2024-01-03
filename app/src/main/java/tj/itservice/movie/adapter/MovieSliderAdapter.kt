@@ -12,7 +12,9 @@ import tj.itservice.movie.R
 import tj.itservice.movie.data.MovieResult
 import tj.itservice.movie.utils.ApiHelper
 
+@SuppressLint("SetTextI18n")
 class MovieSliderAdapter : SliderViewAdapter<MovieSliderAdapter.MyViewHolder>() {
+
     private var movies: ArrayList<MovieResult> = ArrayList()
 
     class MyViewHolder(itemView: View) : ViewHolder(itemView) {
@@ -26,7 +28,6 @@ class MovieSliderAdapter : SliderViewAdapter<MovieSliderAdapter.MyViewHolder>() 
         return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_slider, parent, false) )
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: MyViewHolder?, position: Int) {
         val movieResult = movies[position]
 
@@ -45,7 +46,7 @@ class MovieSliderAdapter : SliderViewAdapter<MovieSliderAdapter.MyViewHolder>() 
         return if (movies.isEmpty()) 0 else 5
     }
 
-    fun setList(newList:  ArrayList<MovieResult>){
+    fun setList(newList:  List<MovieResult>){
         movies.clear()
         movies.addAll(newList)
         notifyDataSetChanged()

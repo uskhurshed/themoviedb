@@ -14,7 +14,7 @@ import javax.inject.Inject
 class RateViewModel
 @Inject constructor(private val postRepository: Repository) : ViewModel() {
 
-    val rateLD: MutableLiveData<ArrayList<MovieResult>> = MutableLiveData()
+    val rateLD: MutableLiveData<List<MovieResult>> = MutableLiveData()
     private var ratePage:Int = 1
     val error: MutableLiveData<String> = MutableLiveData()
 

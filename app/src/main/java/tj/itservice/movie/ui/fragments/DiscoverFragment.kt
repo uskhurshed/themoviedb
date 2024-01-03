@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.DiscoverAdapter
+import tj.itservice.movie.data.MovieResult
 import tj.itservice.movie.databinding.FragmentDiscoverBinding
-import tj.itservice.movie.interfaces.DetailsListener
+import tj.itservice.movie.ui.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.DiscoverViewModel
 import tj.itservice.movie.ui.viewmodels.HomeViewModel
 import tj.itservice.movie.utils.LoadingDialog
@@ -64,9 +65,9 @@ class DiscoverFragment : Fragment() {
 
         discVM.movieList.observe(viewLifecycleOwner) {
             loadingDialog.dismiss()
-            adapter.movieList = it
+            adapter.movieList = it as ArrayList<MovieResult>
             adapter.notifyDataSetChanged()
-            if (it.size == 0) {
+            if (it.isEmpty()) {
                 bindDis.empty.visibility = View.VISIBLE
                 bindDis.rvDiscover.visibility = View.GONE
             } else {

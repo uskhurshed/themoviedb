@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 import tj.itservice.movie.R
 import tj.itservice.movie.data.MovieResult
-import tj.itservice.movie.interfaces.DetailsListener
+import tj.itservice.movie.ui.interfaces.DetailsListener
 import tj.itservice.movie.utils.ApiHelper
 
 class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -35,6 +35,7 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         when (holder) {
             is MovieViewHolder -> {
                 val movieResult = movieList[position]
@@ -46,13 +47,11 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
                 holder.ratingTextView.text = movieResult.voteAverage.toString()
                 holder.langTextView.text = movieResult.originalLanguage
-                holder.itemView.setOnClickListener {
-                    mListener?.setClick(movieResult.id)
-                }
+                holder.itemView.setOnClickListener { mListener?.setClick(movieResult.id) }
             }
-            is ShimmerViewHolder -> {
-                holder.shimmerLayout.startShimmer()
-            }
+
+            is ShimmerViewHolder -> holder.shimmerLayout.startShimmer()
+
         }
     }
     override fun getItemCount(): Int {
@@ -63,7 +62,7 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addList(mv: ArrayList<MovieResult>){
+    fun addList(mv: List<MovieResult>){
         movieList.addAll(mv)
         notifyDataSetChanged()
     }
@@ -82,7 +81,5 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class ShimmerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val shimmerLayout: ShimmerFrameLayout = itemView.findViewById(R.id.movieCard)
     }
-
-
 
 }
