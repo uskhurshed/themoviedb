@@ -81,7 +81,7 @@ class DiscoverFragment : Fragment(),DetailsListener {
         rvDiscover.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(0) && !searchFlag) viewModel?.getPopulars()
+                if (!recyclerView.canScrollVertically(0) && !searchFlag && viewModel?.isLoading?.value == false) viewModel?.getPopulars()
             }
         })
     }

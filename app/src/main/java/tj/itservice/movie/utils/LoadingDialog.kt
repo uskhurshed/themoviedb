@@ -7,7 +7,6 @@ import tj.itservice.movie.R
 
 class LoadingDialog(context: Context) : Dialog(context) {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_loading)

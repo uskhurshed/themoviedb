@@ -46,7 +46,7 @@ class HomeViewModel
 
 
 
-    fun getPopulars() {
+    private fun getPopulars() {
         viewModelScope.launch {
             try {
                 val response = postRepository.getPopularMovie(popularPage)

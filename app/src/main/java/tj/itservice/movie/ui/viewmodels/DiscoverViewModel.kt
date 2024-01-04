@@ -17,6 +17,7 @@ class DiscoverViewModel
     val movieList: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val popularList: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private var popularPage:Int = 1
 
@@ -36,15 +37,19 @@ class DiscoverViewModel
 
     fun getPopulars() {
         viewModelScope.launch {
+            if (isLoading.value == true) return@launch
+            isLoading.postValue(true)
             try {
                 val response = postRepository.getPopularMovie(popularPage)
                 popularList.postValue(response.results)
-                popularPage ++
+                popularPage++
                 isErrorVisible.postValue(false)
                 Log.e("response", "${response.results}")
             } catch (e: Exception) {
                 Log.e("response", "Error getPost: $e")
                 isErrorVisible.postValue(true)
+            } finally {
+                isLoading.postValue(false)
             }
         }
     }
