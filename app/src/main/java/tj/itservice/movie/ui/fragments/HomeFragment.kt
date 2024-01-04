@@ -37,7 +37,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottomNavIsVisible(View.VISIBLE)
 
         viewModel.upcomingLD.observe(viewLifecycleOwner) { mList ->
             binding.slider.setSliderAdapter(movieSliderAdapter)
@@ -71,10 +70,6 @@ class HomeFragment : Fragment() {
     private fun navigateToDetails(movieId: Long) = with(findNavController()) {
         val bundle = Bundle().apply { putLong("id", movieId) }
         navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
-        bottomNavIsVisible(View.GONE)
     }
 
-    private fun bottomNavIsVisible(visibility: Int){
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.visibility = visibility
-    }
 }

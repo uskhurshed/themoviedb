@@ -64,7 +64,7 @@ class DiscoverFragment : Fragment() {
         initRecycleListeners()
         initSearch()
         observeErrors()
-
+        
         adapter.mListener = object : DetailsListener {
             override fun setClick(id: Long?): Unit = with(findNavController()){
                 id?.let { val bundle = Bundle().apply { putLong("id", it) }

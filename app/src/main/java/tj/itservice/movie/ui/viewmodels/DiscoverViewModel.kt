@@ -19,7 +19,6 @@ class DiscoverViewModel
     val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     private var popularPage:Int = 1
 
-
     fun getSearch(searchQuery: String) = with(viewModelScope) {
             launch {
                 try {
@@ -48,6 +47,5 @@ class DiscoverViewModel
             }
         }
     }
-
 
 }

@@ -5,15 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.MovieAdapter
-import tj.itservice.movie.databinding.FragmentHomeBinding
 import tj.itservice.movie.databinding.FragmentRatingBinding
 import tj.itservice.movie.ui.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.RateViewModel
@@ -39,12 +36,11 @@ class RatingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showBottomNav()
+
         adapter  = MovieAdapter()
         bindRate.rvTop.adapter = adapter
-        viewModel.rateLD.observe(viewLifecycleOwner){
-            adapter.addList(it)
-        }
+        viewModel.rateLD.observe(viewLifecycleOwner){ adapter.addList(it) }
+
         initRecycleListeners()
         observeErrors()
 
@@ -53,8 +49,6 @@ class RatingFragment : Fragment() {
                 id?.let {
                     val bundle = Bundle().apply { putLong("id", it) }
                     findNavController().navigate(R.id.action_ratingFragment_to_detailsFragment, bundle)
-                    val bottomNavigationView = requireActivity().findViewById<View>(R.id.bottomNavigationView)
-                    bottomNavigationView.visibility = View.GONE
                 }
             }
         }
@@ -74,11 +68,6 @@ class RatingFragment : Fragment() {
         viewModel.isErrorVisible.observe(viewLifecycleOwner) { isVisible ->
             if (isVisible) errorManager.showErrorMessage { viewModel.start() }
         }
-    }
-
-    private fun showBottomNav(){
-        val bottom = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        if (bottom != null) if (bottom.visibility == View.GONE) bottom.visibility = View.VISIBLE
     }
 
 }

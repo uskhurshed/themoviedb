@@ -5,11 +5,9 @@
     <data>
 
         <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="tj.itservice.movie.ui.viewmodels.DiscoverViewModel" />
-
 
     </data>
 
