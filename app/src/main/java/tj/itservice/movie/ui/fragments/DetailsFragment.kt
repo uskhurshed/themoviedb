@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -72,19 +73,16 @@ class DetailsFragment : Fragment() {
     }
 
     private fun formatNumber(number: Long?): String {
-        val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
-        return numberFormat.format(number)
+        return NumberFormat.getNumberInstance(Locale.getDefault()).format(number)
     }
 
-    private fun showProgressDialog() = with (rateDialog){
-        show()
-        setOnRateListener { rating ->
-            detailVM.rate(id, (rating * 2).toInt()) { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show() }
+    private fun showProgressDialog() = with (detailVM){
+        rateDialog.show()
+        rateDialog.setOnRateListener { rating ->
+            rate(id, (rating.toInt() * 2)) { message -> Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show() }
         }
-        setOnDeleteListener {
-            detailVM.deleteRate(id) { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show() }
+        rateDialog.setOnDeleteListener {
+            deleteRate(id) { message -> Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show() }
         }
     }
 
@@ -100,18 +98,12 @@ class DetailsFragment : Fragment() {
             if (movieResult?.adult == true) tvAdult.text = "+18"
             else tvAdult.text = "+13"
 
-            Glide.with(requireContext())
-                .load(ApiHelper.BASE_BACKDROP_PATH + (movieResult?.backdropPath))
-                .error(R.drawable.ic_movie)
-                .into(ivBackdrow)
-
-            Glide.with(requireContext())
-                .load(ApiHelper.BASE_POSTER_PATH + (movieResult?.posterPath))
-                .error(R.drawable.ic_movie)
-                .into(ivPoster)
+            loadImage(ApiHelper.BASE_BACKDROP_PATH + (movieResult?.backdropPath),ivBackdrow)
+            loadImage(ApiHelper.BASE_POSTER_PATH + (movieResult?.posterPath),ivPoster)
 
             genre.removeAllViews()
             lifecycleScope.launch { detailVM.checkHaving() }
+
             for (i in 0 until (movieResult?.genres?.size ?: 0)) {
                 val tv = TextView(requireContext(), null, 0, R.style.tag)
                 tv.text = movieResult?.genres?.get(i)?.name
@@ -120,5 +112,12 @@ class DetailsFragment : Fragment() {
                 tv.layoutParams = layoutParams
                 genre.addView(tv)
             }
+    }
+
+    private fun loadImage(url:String,iv:ImageView){
+        Glide.with(requireContext())
+            .load(url)
+            .error(R.drawable.ic_movie)
+            .into(iv)
     }
 }

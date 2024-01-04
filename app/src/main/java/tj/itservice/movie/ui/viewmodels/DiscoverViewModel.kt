@@ -17,6 +17,7 @@ class DiscoverViewModel
     val movieList: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val popularList: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+
     private var popularPage:Int = 1
 
     fun getSearch(searchQuery: String) = with(viewModelScope) {

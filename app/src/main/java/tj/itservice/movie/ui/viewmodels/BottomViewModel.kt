@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 
 class BottomViewModel : ViewModel() {
 
-    val isBottomNavigationVisible = MutableLiveData<Boolean>(true)
+    val isBottomNavigationVisible = MutableLiveData(true)
 
-    fun hideBottomNavigation() {
-        isBottomNavigationVisible.value = false
+    fun hideBottomNavigation() = with(isBottomNavigationVisible) {
+        value = false
     }
 
-    fun showBottomNavigation() {
-        isBottomNavigationVisible.value = true
+    fun showBottomNavigation() = with(isBottomNavigationVisible) {
+        value = true
     }
 }

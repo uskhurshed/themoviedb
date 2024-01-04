@@ -18,11 +18,10 @@ import tj.itservice.movie.ui.viewmodels.DiscoverViewModel
 import tj.itservice.movie.utils.ErrorManager
 import tj.itservice.movie.utils.LoadingDialog
 
-
 @AndroidEntryPoint
 class DiscoverFragment : Fragment(),DetailsListener {
 
-    private lateinit var bindDis:FragmentDiscoverBinding
+    private lateinit var bindDis: FragmentDiscoverBinding
 
     private val viewModel: DiscoverViewModel by viewModels()
     private lateinit var errorManager: ErrorManager
@@ -36,6 +35,7 @@ class DiscoverFragment : Fragment(),DetailsListener {
             this.viewModel = this@DiscoverFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
         }
+
         loadingDialog = LoadingDialog(requireContext())
         errorManager = ErrorManager(requireContext(), bindDis.main)
         return bindDis.root
@@ -51,7 +51,7 @@ class DiscoverFragment : Fragment(),DetailsListener {
         bindDis.rvDiscover.adapter = adapter
 
         viewModel.getPopulars()
-        viewModel.popularList.observe(viewLifecycleOwner){
+        viewModel.popularList.observe(viewLifecycleOwner) {
             adapter.addList(it)
             loadingDialog.dismiss()
         }
@@ -64,10 +64,9 @@ class DiscoverFragment : Fragment(),DetailsListener {
         initRecycleListeners()
         initSearch()
         observeErrors()
-
     }
 
-    private fun initSearch() = with (bindDis.etSearch){
+    private fun initSearch() = with(bindDis.etSearch) {
         setOnKeyListener { _, _, _ ->
             if ("$text" != "") {
                 viewModel.getSearch("$text")
@@ -97,10 +96,9 @@ class DiscoverFragment : Fragment(),DetailsListener {
     }
 
     override fun setClick(id: Long?): Unit = with(findNavController()) {
-        id?.let { val bundle = Bundle().apply { putLong("id", it) }
+        id?.let {
+            val bundle = Bundle().apply { putLong("id", it) }
             navigate(R.id.action_discoverFragment_to_detailsFragment, bundle)
         }
     }
-
-
 }
