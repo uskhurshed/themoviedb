@@ -6,7 +6,7 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import tj.itservice.movie.data.Movie
 import tj.itservice.movie.data.MovieResult
-import tj.itservice.movie.request.ApiService
+import tj.itservice.movie.interfaces.ApiService
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val apiService: ApiService) {

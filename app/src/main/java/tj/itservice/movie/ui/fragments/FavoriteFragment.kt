@@ -16,16 +16,16 @@ import tj.itservice.movie.R
 import tj.itservice.movie.adapter.DiscoverAdapter
 import tj.itservice.movie.databinding.FragmentFavoriteBinding
 import tj.itservice.movie.db.MovieDao
-import tj.itservice.movie.ui.interfaces.DetailsListener
+import tj.itservice.movie.interfaces.DetailsListener
 import javax.inject.Inject
 
 @AndroidEntryPoint
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment(),DetailsListener {
 
     private lateinit var bindFav:FragmentFavoriteBinding
 
-    private var adapter = DiscoverAdapter()
+    private var adapter = DiscoverAdapter(this)
     @Inject lateinit var movieDao: MovieDao
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -35,18 +35,9 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         bindFav.rvFavorite.adapter = adapter
-
         getFavorites()
-
-        adapter.mListener = object : DetailsListener {
-            override fun setClick(id: Long?) {
-                id?.let {
-                    val bundle = Bundle().apply { putLong("id", it) }
-                    findNavController().navigate(R.id.action_favoriteFragment_to_detailsFragment, bundle)
-                }
-            }
-        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -61,6 +52,13 @@ class FavoriteFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         getFavorites()
+    }
+
+    override fun setClick(id: Long?): Unit = with(findNavController()) {
+        id?.let {
+            val bundle = Bundle().apply { putLong("id", it) }
+            navigate(R.id.action_favoriteFragment_to_detailsFragment, bundle)
+        }
     }
 
 }

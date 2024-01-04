@@ -12,18 +12,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.MovieAdapter
 import tj.itservice.movie.databinding.FragmentRatingBinding
-import tj.itservice.movie.ui.interfaces.DetailsListener
+import tj.itservice.movie.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.RateViewModel
 import tj.itservice.movie.utils.ErrorManager
 
 @AndroidEntryPoint
-class RatingFragment : Fragment() {
+class RatingFragment : Fragment(), DetailsListener{
 
     private lateinit var bindRate: FragmentRatingBinding
     private val viewModel: RateViewModel by viewModels()
     private lateinit var adapter:MovieAdapter
     private lateinit var errorManager: ErrorManager
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindRate = FragmentRatingBinding.inflate(inflater, container, false).apply {
@@ -37,21 +36,12 @@ class RatingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter  = MovieAdapter()
+        adapter  = MovieAdapter(this)
         bindRate.rvTop.adapter = adapter
         viewModel.rateLD.observe(viewLifecycleOwner){ adapter.addList(it) }
 
         initRecycleListeners()
         observeErrors()
-
-        adapter.mListener = object : DetailsListener {
-            override fun setClick(id: Long?) {
-                id?.let {
-                    val bundle = Bundle().apply { putLong("id", it) }
-                    findNavController().navigate(R.id.action_ratingFragment_to_detailsFragment, bundle)
-                }
-            }
-        }
 
     }
 
@@ -68,6 +58,11 @@ class RatingFragment : Fragment() {
         viewModel.isErrorVisible.observe(viewLifecycleOwner) { isVisible ->
             if (isVisible) errorManager.showErrorMessage { viewModel.start() }
         }
+    }
+
+    override fun setClick(id: Long?) {
+        val bundle = Bundle().apply { id?.let { putLong("id", it) } }
+        findNavController().navigate(R.id.action_ratingFragment_to_detailsFragment, bundle)
     }
 
 }

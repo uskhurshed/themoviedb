@@ -15,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import tj.itservice.movie.db.AppDatabase
 import tj.itservice.movie.db.MovieDao
-import tj.itservice.movie.request.ApiService
+import tj.itservice.movie.interfaces.ApiService
 import tj.itservice.movie.utils.ApiHelper
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton

@@ -1,4 +1,4 @@
-package tj.itservice.movie.ui.interfaces
+package tj.itservice.movie.interfaces
 
 interface DetailsListener {
     fun setClick(id:Long?)

@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import tj.itservice.movie.R
 import tj.itservice.movie.data.MovieResult
-import tj.itservice.movie.ui.interfaces.DetailsListener
+import tj.itservice.movie.interfaces.DetailsListener
 import tj.itservice.movie.utils.ApiHelper
 
 @SuppressLint("NotifyDataSetChanged")
-class DiscoverAdapter : RecyclerView.Adapter<DiscoverAdapter.MovieViewHolder>() {
+class DiscoverAdapter(private val listener: DetailsListener) : RecyclerView.Adapter<DiscoverAdapter.MovieViewHolder>() {
 
-    var movieList: ArrayList<MovieResult> = ArrayList()
-    var mListener: DetailsListener? = null
+    private var movieList: ArrayList<MovieResult> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder = with(parent) {
         return MovieViewHolder(LayoutInflater.from(context).inflate(R.layout.item_discover, this, false))
@@ -35,9 +34,7 @@ class DiscoverAdapter : RecyclerView.Adapter<DiscoverAdapter.MovieViewHolder>() 
         date.text = movieResult.releaseDate.toString()
         detail.text = movieResult.overview
 
-        itemView.setOnClickListener {
-            mListener?.setClick(movieResult.id)
-        }
+        itemView.setOnClickListener { listener.setClick(movieResult.id) }
     }
 
     override fun getItemCount(): Int {

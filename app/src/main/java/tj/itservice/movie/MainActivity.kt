@@ -8,16 +8,15 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import tj.itservice.movie.R
 import tj.itservice.movie.databinding.ActivityMainBinding
 import tj.itservice.movie.ui.viewmodels.BottomViewModel
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
     private val bottomViewModel by viewModels<BottomViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

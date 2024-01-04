@@ -1,4 +1,4 @@
-package tj.itservice.movie.request
+package tj.itservice.movie.interfaces
 
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

@@ -13,21 +13,21 @@ import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.DiscoverAdapter
 import tj.itservice.movie.databinding.FragmentDiscoverBinding
-import tj.itservice.movie.ui.interfaces.DetailsListener
+import tj.itservice.movie.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.DiscoverViewModel
 import tj.itservice.movie.utils.ErrorManager
 import tj.itservice.movie.utils.LoadingDialog
 
 
 @AndroidEntryPoint
-class DiscoverFragment : Fragment() {
+class DiscoverFragment : Fragment(),DetailsListener {
 
     private lateinit var bindDis:FragmentDiscoverBinding
 
     private val viewModel: DiscoverViewModel by viewModels()
     private lateinit var errorManager: ErrorManager
 
-    private var adapter = DiscoverAdapter()
+    private var adapter = DiscoverAdapter(this)
     private var searchFlag = false
     private lateinit var loadingDialog: LoadingDialog
 
@@ -64,16 +64,7 @@ class DiscoverFragment : Fragment() {
         initRecycleListeners()
         initSearch()
         observeErrors()
-        
-        adapter.mListener = object : DetailsListener {
-            override fun setClick(id: Long?): Unit = with(findNavController()){
-                id?.let { val bundle = Bundle().apply { putLong("id", it) }
-                    navigate(R.id.action_discoverFragment_to_detailsFragment, bundle)
-                    val bottomNavigationView = requireActivity().findViewById<View>(R.id.bottomNavigationView)
-                    bottomNavigationView.visibility = View.GONE
-                }
-            }
-        }
+
     }
 
     private fun initSearch() = with (bindDis.etSearch){
@@ -102,6 +93,12 @@ class DiscoverFragment : Fragment() {
                 loadingDialog.dismiss()
                 errorManager.showErrorMessage { viewModel.getPopulars() }
             }
+        }
+    }
+
+    override fun setClick(id: Long?): Unit = with(findNavController()) {
+        id?.let { val bundle = Bundle().apply { putLong("id", it) }
+            navigate(R.id.action_discoverFragment_to_detailsFragment, bundle)
         }
     }
 

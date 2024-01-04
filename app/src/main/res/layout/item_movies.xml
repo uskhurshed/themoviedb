@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        app:cardBackgroundColor="?android:attr/textColorSecondaryInverse"
+        app:cardBackgroundColor="?android:attr/textColorTertiaryInverse"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,13 +24,13 @@
                 android:id="@+id/imageView"
                 android:layout_width="170dp"
                 android:layout_height="280dp"
+                android:importantForAccessibility="no"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_movie"
-                android:importantForAccessibility="no" />
+                app:srcCompat="@drawable/ic_movie" />
 
             <TextView
                 android:id="@+id/tv_rating"
@@ -46,7 +46,6 @@
                 android:text="@string/_0_00"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/ic_rate"
-                app:drawableTint="#FF963B"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

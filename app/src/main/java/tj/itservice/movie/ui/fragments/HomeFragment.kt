@@ -7,24 +7,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.MovieAdapter
 import tj.itservice.movie.adapter.MovieSliderAdapter
 import tj.itservice.movie.databinding.FragmentHomeBinding
-import tj.itservice.movie.ui.interfaces.DetailsListener
+import tj.itservice.movie.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.HomeViewModel
 import tj.itservice.movie.utils.ErrorManager
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), DetailsListener {
 
     private lateinit var binding : FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var errorManager: ErrorManager
 
-    private val movieSliderAdapter by lazy { MovieSliderAdapter() }
+    private val movieSliderAdapter =  MovieSliderAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
@@ -43,13 +42,11 @@ class HomeFragment : Fragment() {
             movieSliderAdapter.setList(mList)
             binding.slider.startAutoCycle()
         }
-        val popularAdapter = MovieAdapter()
+        val popularAdapter = MovieAdapter(this)
         binding.rvPopular.adapter = popularAdapter
+
         viewModel.popularLD.observe(viewLifecycleOwner) { popularAdapter.addList(it) }
 
-        popularAdapter.mListener = object : DetailsListener {
-            override fun setClick(id: Long?) { id?.let { navigateToDetails(it) } }
-        }
         setupNavigationListeners()
         observeErrors()
     }
@@ -71,5 +68,10 @@ class HomeFragment : Fragment() {
         val bundle = Bundle().apply { putLong("id", movieId) }
         navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
     }
+
+    override fun setClick(id: Long?) {
+        id?.let { navigateToDetails(it) }
+    }
+
 
 }
