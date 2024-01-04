@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val postRepository: Repository, private val movieDao: MovieDao): ViewModel() {
 
-    val detailLD: MutableLiveData<MovieResult?> = MutableLiveData()
+    val movieList: MutableLiveData<MovieResult?> = MutableLiveData()
     val isFavorite = MutableLiveData<Boolean>()
     val error: MutableLiveData<String> = MutableLiveData()
     private var movie:MovieResult? = null
@@ -29,11 +29,11 @@ class DetailViewModel @Inject constructor(private val postRepository: Repository
                 movie = movieDao.getMovieById(id)
             }
             if (movie != null) {
-                detailLD.postValue(movie )
+                movieList.postValue(movie )
             } else {
                 try {
                     val response = postRepository.getMovieDetails(id)
-                    detailLD.postValue(response)
+                    movieList.postValue(response)
                 } catch (e: Exception) {
                     error.postValue(e.message)
                     Log.d("main", "getPost: ${e.message}")
@@ -73,10 +73,10 @@ class DetailViewModel @Inject constructor(private val postRepository: Repository
     suspend fun toggleFavorite() {
         withContext(Dispatchers.IO) {
             if (isFavorite.value == true) {
-                detailLD.value?.let { movieDao.deleteMovie(it) }
+                movieList.value?.let { movieDao.deleteMovie(it) }
                 Log.e("database","deleted")
             } else {
-                detailLD.value?.let { movieDao.insertMovie(it) }
+                movieList.value?.let { movieDao.insertMovie(it) }
                 Log.e("database","added")
             }
         }
@@ -86,7 +86,7 @@ class DetailViewModel @Inject constructor(private val postRepository: Repository
 
     suspend fun checkHaving() {
         withContext(Dispatchers.IO) {
-            if (detailLD.value?.id?.let { movieDao.getMovieById(it) } == detailLD.value) isFavorite.postValue(true)
+            if (movieList.value?.id?.let { movieDao.getMovieById(it) } == movieList.value) isFavorite.postValue(true)
             else isFavorite.postValue(false)
         }
     }

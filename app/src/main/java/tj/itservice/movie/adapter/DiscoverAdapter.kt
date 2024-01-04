@@ -50,6 +50,13 @@ class DiscoverAdapter : RecyclerView.Adapter<DiscoverAdapter.MovieViewHolder>() 
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun setList(mv: List<MovieResult>) {
+        movieList.clear()
+        movieList.addAll(mv)
+        notifyDataSetChanged()
+    }
+
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.image)
         val name: TextView = itemView.findViewById(R.id.name)

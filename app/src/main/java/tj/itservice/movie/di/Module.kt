@@ -77,6 +77,7 @@ object Module {
     fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
         return Room.databaseBuilder(appContext, AppDatabase::class.java, "my_database").build()
     }
+
     @Singleton
     @Provides
     fun provideMovieDao(appDatabase: AppDatabase): MovieDao {

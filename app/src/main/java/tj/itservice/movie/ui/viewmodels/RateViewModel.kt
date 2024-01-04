@@ -11,12 +11,11 @@ import tj.itservice.movie.di.Repository
 import javax.inject.Inject
 
 @HiltViewModel
-class RateViewModel
-@Inject constructor(private val postRepository: Repository) : ViewModel() {
+class RateViewModel @Inject constructor(private val postRepository: Repository) : ViewModel() {
 
     val rateLD: MutableLiveData<List<MovieResult>> = MutableLiveData()
     private var ratePage:Int = 1
-    val error: MutableLiveData<String> = MutableLiveData()
+    val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
 
 
     init {
@@ -36,9 +35,10 @@ class RateViewModel
                 rateLD.postValue(response.results)
                 ratePage ++
                 Log.d("rateVM", "${response.results}")
+                isErrorVisible.postValue(false)
             } catch (e: Exception) {
                 Log.d("rateVM", "getPost: ${e.message}")
-                error.postValue(e.message)
+                isErrorVisible.postValue(true)
             }
         }
     }
