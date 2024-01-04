@@ -44,34 +44,33 @@ class HomeFragment : Fragment() {
             movieSliderAdapter.setList(mList)
             binding.slider.startAutoCycle()
         }
-
         val popularAdapter = MovieAdapter()
         binding.rvPopular.adapter = popularAdapter
-        viewModel.popularLD.observe(viewLifecycleOwner) {
-            popularAdapter.addList(it)
-        }
+        viewModel.popularLD.observe(viewLifecycleOwner) { popularAdapter.addList(it) }
+
         popularAdapter.mListener = object : DetailsListener {
             override fun setClick(id: Long?) { id?.let { navigateToDetails(it) } }
         }
-
-        observeErrors()
         setupNavigationListeners()
+        observeErrors()
     }
 
-    private fun observeErrors() {
-        viewModel.isErrorVisible.observe(viewLifecycleOwner) { isVisible ->
-            if (isVisible) errorManager.showErrorMessage { viewModel.start() }
+    private fun observeErrors() = with(viewModel){
+        isErrorVisible.observe(viewLifecycleOwner) { isVisible ->
+            if (isVisible) errorManager.showErrorMessage { start() }
         }
     }
 
     private fun setupNavigationListeners() = with(binding) {
-        search.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_discoverFragment) }
-        seeAll.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_discoverFragment) }
+        findNavController().apply {
+            search.setOnClickListener {  this.navigate(R.id.action_homeFragment_to_discoverFragment)}
+            seeAll.setOnClickListener {  this.navigate(R.id.action_homeFragment_to_discoverFragment)}
+        }
     }
 
-    private fun navigateToDetails(movieId: Long) {
+    private fun navigateToDetails(movieId: Long) = with(findNavController()) {
         val bundle = Bundle().apply { putLong("id", movieId) }
-        findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
+        navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         bottomNavIsVisible(View.GONE)
     }
 

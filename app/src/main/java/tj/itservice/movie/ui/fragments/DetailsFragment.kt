@@ -76,14 +76,16 @@ class DetailsFragment : Fragment() {
         return numberFormat.format(number)
     }
 
-    private fun showProgressDialog()  = with (rateDialog){
+    private fun showProgressDialog() = with (rateDialog){
         show()
-        setOnRateListener { rating -> detailVM.rate(id, (rating * 2).toInt()) { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        } }
-        setOnDeleteListener { detailVM.deleteRate(id) { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        } }
+        setOnRateListener { rating ->
+            detailVM.rate(id, (rating * 2).toInt()) { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show() }
+        }
+        setOnDeleteListener {
+            detailVM.deleteRate(id) { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show() }
+        }
     }
 
     @SuppressLint("SetTextI18n")

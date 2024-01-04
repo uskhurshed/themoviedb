@@ -13,29 +13,29 @@ import tj.itservice.movie.data.MovieResult
 import tj.itservice.movie.ui.interfaces.DetailsListener
 import tj.itservice.movie.utils.ApiHelper
 
+@SuppressLint("NotifyDataSetChanged")
 class DiscoverAdapter : RecyclerView.Adapter<DiscoverAdapter.MovieViewHolder>() {
 
     var movieList: ArrayList<MovieResult> = ArrayList()
     var mListener: DetailsListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_discover, parent, false)
-        return MovieViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder = with(parent) {
+        return MovieViewHolder(LayoutInflater.from(context).inflate(R.layout.item_discover, this, false))
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) = with(holder) {
         val movieResult = movieList[position]
 
-        Glide.with(holder.itemView.context)
+        Glide.with(itemView.context)
             .load(ApiHelper.BASE_POSTER_PATH + movieResult.posterPath)
             .placeholder(R.drawable.ic_movie)
-            .into(holder.imageView)
+            .into(imageView)
 
-        holder.name.text = movieResult.title.toString()
-        holder.date.text = movieResult.releaseDate.toString()
-        holder.detail.text = movieResult.overview
+        name.text = movieResult.title.toString()
+        date.text = movieResult.releaseDate.toString()
+        detail.text = movieResult.overview
 
-        holder.itemView.setOnClickListener {
+        itemView.setOnClickListener {
             mListener?.setClick(movieResult.id)
         }
     }
@@ -44,20 +44,18 @@ class DiscoverAdapter : RecyclerView.Adapter<DiscoverAdapter.MovieViewHolder>() 
         return movieList.size
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun addList(mv: List<MovieResult>) {
         movieList.addAll(mv)
         notifyDataSetChanged()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setList(mv: List<MovieResult>) {
-        movieList.clear()
-        movieList.addAll(mv)
+    fun setList(mv: List<MovieResult>) = with(movieList) {
+        clear()
+        addAll(mv)
         notifyDataSetChanged()
     }
 
-    class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
         val imageView: ImageView = itemView.findViewById(R.id.image)
         val name: TextView = itemView.findViewById(R.id.name)
         val detail: TextView = itemView.findViewById(R.id.details)

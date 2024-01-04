@@ -15,7 +15,6 @@ import tj.itservice.movie.adapter.DiscoverAdapter
 import tj.itservice.movie.databinding.FragmentDiscoverBinding
 import tj.itservice.movie.ui.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.DiscoverViewModel
-import tj.itservice.movie.ui.viewmodels.HomeViewModel
 import tj.itservice.movie.utils.ErrorManager
 import tj.itservice.movie.utils.LoadingDialog
 
@@ -26,19 +25,18 @@ class DiscoverFragment : Fragment() {
     private lateinit var bindDis:FragmentDiscoverBinding
 
     private val viewModel: DiscoverViewModel by viewModels()
-    private val mainVM: HomeViewModel by viewModels()
     private lateinit var errorManager: ErrorManager
 
-    private lateinit var adapter: DiscoverAdapter
-    private lateinit var loadingDialog: LoadingDialog
+    private var adapter = DiscoverAdapter()
     private var searchFlag = false
-
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindDis = FragmentDiscoverBinding.inflate(inflater, container, false).apply {
             this.viewModel = this@DiscoverFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
         }
+        loadingDialog = LoadingDialog(requireContext())
         errorManager = ErrorManager(requireContext(), bindDis.main)
         return bindDis.root
     }
@@ -46,39 +44,36 @@ class DiscoverFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadingDialog = LoadingDialog(requireContext())
+
         loadingDialog.show()
 
         bindDis.btnBack.setOnClickListener { findNavController().navigateUp() }
-
-        adapter = DiscoverAdapter()
         bindDis.rvDiscover.adapter = adapter
 
-        mainVM.getPopulars()
-        mainVM.popularLD.observe(viewLifecycleOwner){
+        viewModel.getPopulars()
+        viewModel.popularList.observe(viewLifecycleOwner){
             adapter.addList(it)
             loadingDialog.dismiss()
         }
-
-        initRecycleListeners()
-        initSearch()
 
         viewModel.movieList.observe(viewLifecycleOwner) {
             loadingDialog.dismiss()
             adapter.setList(it)
         }
+
+        initRecycleListeners()
+        initSearch()
         observeErrors()
 
         adapter.mListener = object : DetailsListener {
-            override fun setClick(id: Long?) {
+            override fun setClick(id: Long?): Unit = with(findNavController()){
                 id?.let { val bundle = Bundle().apply { putLong("id", it) }
-                    findNavController().navigate(R.id.action_discoverFragment_to_detailsFragment, bundle)
+                    navigate(R.id.action_discoverFragment_to_detailsFragment, bundle)
                     val bottomNavigationView = requireActivity().findViewById<View>(R.id.bottomNavigationView)
                     bottomNavigationView.visibility = View.GONE
                 }
             }
         }
-
     }
 
     private fun initSearch() = with (bindDis.etSearch){
@@ -96,7 +91,7 @@ class DiscoverFragment : Fragment() {
         rvDiscover.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && !searchFlag) mainVM.getPopulars()
+                if (!recyclerView.canScrollVertically(0) && !searchFlag) viewModel?.getPopulars()
             }
         })
     }
@@ -105,7 +100,7 @@ class DiscoverFragment : Fragment() {
         isErrorVisible.observe(viewLifecycleOwner) { isVisible ->
             if (isVisible) {
                 loadingDialog.dismiss()
-                errorManager.showErrorMessage { getSearch(bindDis.etSearch.text.toString()) }
+                errorManager.showErrorMessage { viewModel.getPopulars() }
             }
         }
     }

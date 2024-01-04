@@ -15,7 +15,7 @@ import tj.itservice.movie.utils.ApiHelper
 @SuppressLint("SetTextI18n")
 class MovieSliderAdapter : SliderViewAdapter<MovieSliderAdapter.MyViewHolder>() {
 
-    private var movies: ArrayList<MovieResult> = ArrayList()
+    private var movieList: ArrayList<MovieResult> = ArrayList()
 
     class MyViewHolder(itemView: View) : ViewHolder(itemView) {
         val poster: ImageView = itemView.findViewById(R.id.iv_backdrow)
@@ -24,31 +24,31 @@ class MovieSliderAdapter : SliderViewAdapter<MovieSliderAdapter.MyViewHolder>() 
         val adultCheck: TextView = itemView.findViewById(R.id.tv_adult)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_slider, parent, false) )
+    override fun onCreateViewHolder(parent: ViewGroup): MyViewHolder = with(parent) {
+        return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_slider, this, false) )
     }
 
-    override fun onBindViewHolder(viewHolder: MyViewHolder?, position: Int) {
-        val movieResult = movies[position]
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) = with(holder){
+        val movieResult = movieList[position]
 
-        Glide.with(viewHolder!!.itemView.context)
+        Glide.with(itemView.context)
             .load(ApiHelper.BASE_BACKDROP_PATH+(movieResult.backdropPath))
-            .into(viewHolder.poster)
+            .into(poster)
 
-        if(movieResult.adult) viewHolder.adultCheck.text = "18+"
-        else viewHolder.adultCheck.text = "13+"
+        if(movieResult.adult) adultCheck.text = "18+"
+        else adultCheck.text = "13+"
 
-        viewHolder.movieTitle.text = movieResult.title
-        viewHolder.releaseDate.text = "Дата релиза: " + movieResult.releaseDate
+        movieTitle.text = movieResult.title
+        releaseDate.text = "Дата релиза: " + movieResult.releaseDate
     }
 
     override fun getCount(): Int {
-        return if (movies.isEmpty()) 0 else 5
+        return if (movieList.isEmpty()) 0 else 5
     }
 
-    fun setList(newList:  List<MovieResult>){
-        movies.clear()
-        movies.addAll(newList)
+    fun setList(newList:  List<MovieResult>) = with(movieList){
+        clear()
+        addAll(newList)
         notifyDataSetChanged()
     }
 }

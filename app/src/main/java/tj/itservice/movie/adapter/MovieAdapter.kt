@@ -18,40 +18,35 @@ class MovieAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val typeRegular = 1
     private val typeShimmer = 2
+
     var movieList:ArrayList<MovieResult> = ArrayList()
     var mListener: DetailsListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = with(parent) {
         return when (viewType) {
-            typeRegular -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movies, parent, false)
-                MovieViewHolder(view)
-            } typeShimmer -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.shimmer_item_movies, parent, false)
-                ShimmerViewHolder(view)
-            }
+            typeRegular -> MovieViewHolder(LayoutInflater.from(context).inflate(R.layout.item_movies, this, false))
+            typeShimmer -> ShimmerViewHolder(LayoutInflater.from(context).inflate(R.layout.shimmer_item_movies, this, false))
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = with(holder) {
 
-        when (holder) {
+        when (this) {
             is MovieViewHolder -> {
                 val movieResult = movieList[position]
 
-                Glide.with(holder.itemView.context)
+                Glide.with(itemView.context)
                     .load(ApiHelper.BASE_POSTER_PATH + movieResult.posterPath)
                     .placeholder(R.drawable.ic_movie)
-                    .into(holder.imageView)
+                    .into(imageView)
 
-                holder.ratingTextView.text = movieResult.voteAverage.toString()
-                holder.langTextView.text = movieResult.originalLanguage
-                holder.itemView.setOnClickListener { mListener?.setClick(movieResult.id) }
+                ratingTextView.text = movieResult.voteAverage.toString()
+                langTextView.text = movieResult.originalLanguage
+                itemView.setOnClickListener { mListener?.setClick(movieResult.id) }
             }
 
-            is ShimmerViewHolder -> holder.shimmerLayout.startShimmer()
-
+            is ShimmerViewHolder -> shimmerLayout.startShimmer()
         }
     }
     override fun getItemCount(): Int {

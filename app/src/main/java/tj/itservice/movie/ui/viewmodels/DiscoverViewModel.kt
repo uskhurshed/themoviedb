@@ -15,7 +15,10 @@ class DiscoverViewModel
 @Inject constructor(private val postRepository: Repository) : ViewModel() {
 
     val movieList: MutableLiveData<List<MovieResult>> = MutableLiveData()
+    val popularList: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var popularPage:Int = 1
+
 
     fun getSearch(searchQuery: String) = with(viewModelScope) {
             launch {
@@ -30,5 +33,21 @@ class DiscoverViewModel
                 }
             }
     }
+
+    fun getPopulars() {
+        viewModelScope.launch {
+            try {
+                val response = postRepository.getPopularMovie(popularPage)
+                popularList.postValue(response.results)
+                popularPage ++
+                isErrorVisible.postValue(false)
+                Log.e("response", "${response.results}")
+            } catch (e: Exception) {
+                Log.e("response", "Error getPost: $e")
+                isErrorVisible.postValue(true)
+            }
+        }
+    }
+
 
 }

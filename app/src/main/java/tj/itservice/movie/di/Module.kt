@@ -33,7 +33,8 @@ object Module {
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY // Уровень логирования (BODY - логирование тела запроса и ответа)
+        loggingInterceptor.level =
+            HttpLoggingInterceptor.Level.BODY // Уровень логирования (BODY - логирование тела запроса и ответа)
 
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
@@ -42,6 +43,7 @@ object Module {
             .writeTimeout(30, TimeUnit.SECONDS) //  таймаут на запись
             .build()
     }
+
     @Provides
     fun providesMoshi(): Moshi {
         return Moshi.Builder()
@@ -50,15 +52,7 @@ object Module {
     }
 
     @Provides
-    fun providesConverter(moshiConverter: Moshi): MoshiConverterFactory {
-        return MoshiConverterFactory.create(moshiConverter)
-    }
-
-    @Provides
-    fun provideApiService(baseUrl: String, okHttpClient: OkHttpClient): Retrofit {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
+    fun provideApiService(baseUrl: String, okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
 
         return Retrofit.Builder()
             .baseUrl(baseUrl)
