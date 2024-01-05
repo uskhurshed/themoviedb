@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tj.itservice.movie.R
-import tj.itservice.movie.adapter.DiscoverAdapter
+import tj.itservice.movie.adapter.PagerAdapter
 import tj.itservice.movie.databinding.FragmentFavoriteBinding
 import tj.itservice.movie.db.MovieDao
 import tj.itservice.movie.interfaces.DetailsListener
@@ -25,7 +26,7 @@ class FavoriteFragment : Fragment(),DetailsListener {
 
     private lateinit var bindFav:FragmentFavoriteBinding
 
-    private var adapter = DiscoverAdapter(this)
+    private var adapter = PagerAdapter(this)
     @Inject lateinit var movieDao: MovieDao
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -40,13 +41,9 @@ class FavoriteFragment : Fragment(),DetailsListener {
         getFavorites()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun getFavorites() = with(adapter){
-        viewLifecycleOwner.lifecycleScope.launch {
-            val result = withContext(Dispatchers.IO) { movieDao.getAllMovies() }
-            setList(result)
-            notifyDataSetChanged()
-        }
+    private fun getFavorites() = viewLifecycleOwner.lifecycleScope.launch {
+        val result = withContext(Dispatchers.IO) { movieDao.getAllMovies() }
+        adapter.setList(result)
     }
 
     override fun onResume() {

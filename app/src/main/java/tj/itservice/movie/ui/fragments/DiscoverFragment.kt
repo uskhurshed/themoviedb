@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import tj.itservice.movie.R
-import tj.itservice.movie.adapter.DiscoverAdapter
+import tj.itservice.movie.adapter.PagerAdapter
 import tj.itservice.movie.databinding.FragmentDiscoverBinding
 import tj.itservice.movie.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.DiscoverViewModel
@@ -26,7 +28,7 @@ class DiscoverFragment : Fragment(),DetailsListener {
     private val viewModel: DiscoverViewModel by viewModels()
     private lateinit var errorManager: ErrorManager
 
-    private var adapter = DiscoverAdapter(this)
+    private var adapter = PagerAdapter(this)
     private var searchFlag = false
     private lateinit var loadingDialog: LoadingDialog
 
@@ -52,13 +54,17 @@ class DiscoverFragment : Fragment(),DetailsListener {
 
         viewModel.getPopulars()
         viewModel.popularList.observe(viewLifecycleOwner) {
-            adapter.addList(it)
-            loadingDialog.dismiss()
+            viewLifecycleOwner.lifecycleScope.launch {
+                adapter.addList(it)
+                loadingDialog.dismiss()
+            }
         }
 
         viewModel.movieList.observe(viewLifecycleOwner) {
-            loadingDialog.dismiss()
-            adapter.setList(it)
+            viewLifecycleOwner.lifecycleScope.launch {
+                loadingDialog.dismiss()
+                adapter.setList(it)
+            }
         }
 
         initRecycleListeners()
