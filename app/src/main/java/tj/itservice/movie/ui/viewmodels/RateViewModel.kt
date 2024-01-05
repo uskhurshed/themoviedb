@@ -32,7 +32,9 @@ class RateViewModel @Inject constructor(private val postRepository: Repository) 
 
         try {
             val response = postRepository.getTopRatedMovie(ratePage)
-            movieList.postValue(response.results)
+            val array = (movieList.value as? ArrayList<MovieResult>) ?: ArrayList()
+            array.addAll(response.results)
+            movieList.postValue(array)
             ratePage++
             Log.d("response", "${response.results}")
             isError.postValue(false)
@@ -43,4 +45,5 @@ class RateViewModel @Inject constructor(private val postRepository: Repository) 
             isLoading.postValue(false)
         }
     }
+
 }

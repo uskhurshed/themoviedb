@@ -25,23 +25,23 @@ class RatingFragment : Fragment(), DetailsListener{
     private var adapter = MovieAdapter(this)
     private lateinit var errorManager: ErrorManager
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindRate = FragmentRatingBinding.inflate(inflater, container, false).apply {
             this.viewModel = this@RatingFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
         }
-        errorManager = ErrorManager(requireContext(), bindRate.main)
         bindRate.rvTop.adapter = adapter
+        errorManager = ErrorManager(requireContext(), bindRate.main)
         return bindRate.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.v("adapter",adapter.toString())
+        Log.e("adapterrrr",adapter.toString())
         viewModel.movieList.observe(viewLifecycleOwner){
             adapter.addList(it)
-            Log.v("adapter", it.toString())
         }
 
         initRecycleListeners()
@@ -67,5 +67,6 @@ class RatingFragment : Fragment(), DetailsListener{
         val bundle = Bundle().apply { id?.let { putLong("id", it) } }
         if (currentDestination?.id == R.id.ratingFragment) navigate(R.id.action_ratingFragment_to_detailsFragment, bundle)
     }
+
 
 }

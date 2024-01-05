@@ -6,7 +6,6 @@ plugins {
 }
 
 android {
-
     defaultConfig {
         applicationId = "tj.itservice.movie"
         namespace = "tj.itservice.movie"
@@ -38,7 +37,6 @@ android {
         dataBinding = true
         buildConfig = true
     }
-
 }
 
 dependencies {

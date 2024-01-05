@@ -2,6 +2,7 @@ package tj.itservice.movie.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import tj.itservice.movie.R
@@ -52,11 +54,19 @@ class DiscoverFragment : Fragment(),DetailsListener {
         bindDis.btnBack.setOnClickListener { findNavController().navigateUp() }
         bindDis.rvDiscover.adapter = adapter
 
-        viewModel.getPopulars()
-        viewModel.popularList.observe(viewLifecycleOwner) {
-            viewLifecycleOwner.lifecycleScope.launch {
-                adapter.addList(it)
-                loadingDialog.dismiss()
+        setupRecyclerView()
+        observeErrors()
+
+        viewModel.popularList.observe(viewLifecycleOwner) { pagingData ->
+            adapter.submitData(lifecycle, pagingData)
+            loadingDialog.dismiss()
+        }
+
+        adapter.addLoadStateListener { loadState ->
+            when (loadState.refresh) {
+                is LoadState.Error ->  viewModel.isError.value = true
+                is LoadState.Loading -> Log.d("loadState", "Loading...")
+                is LoadState.NotLoading -> Log.d("loadState", "Not Loading")
             }
         }
 
@@ -67,9 +77,8 @@ class DiscoverFragment : Fragment(),DetailsListener {
             }
         }
 
-        initRecycleListeners()
         initSearch()
-        observeErrors()
+
     }
 
     private fun initSearch() = with(bindDis.etSearch) {
@@ -83,20 +92,17 @@ class DiscoverFragment : Fragment(),DetailsListener {
         }
     }
 
-    private fun initRecycleListeners() = with(viewModel) {
-        bindDis.rvDiscover.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(0) && !searchFlag) getPopulars()
-            }
-        })
+
+    private fun setupRecyclerView() = with(bindDis.rvDiscover) {
+        layoutManager = LinearLayoutManager(requireContext())
+        adapter = this@DiscoverFragment.adapter
     }
 
-    private fun observeErrors() = with(viewModel) {
-        isError.observe(viewLifecycleOwner) { isVisible ->
-            if (isVisible) {
-                loadingDialog.dismiss()
-                errorManager.showErrorMessage { getPopulars() }
+    private fun observeErrors() = with(viewModel.isError) {
+        observe(viewLifecycleOwner) { isVisible ->
+            if (isVisible) errorManager.showErrorMessage {
+                adapter.retry()
+                value = false
             }
         }
     }
