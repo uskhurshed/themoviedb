@@ -29,10 +29,10 @@ class DiscoverFragment : Fragment(),DetailsListener {
 
     private val viewModel: DiscoverViewModel by viewModels()
     private lateinit var errorManager: ErrorManager
+    private lateinit var loadingDialog: LoadingDialog
 
     private var adapter = PagerAdapter(this)
-    private var searchFlag = false
-    private lateinit var loadingDialog: LoadingDialog
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindDis = FragmentDiscoverBinding.inflate(inflater, container, false).apply {
@@ -46,27 +46,27 @@ class DiscoverFragment : Fragment(),DetailsListener {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(bindDis) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadingDialog.show()
-
-        bindDis.btnBack.setOnClickListener { findNavController().navigateUp() }
-        bindDis.rvDiscover.adapter = adapter
+        btnBack.setOnClickListener { findNavController().navigateUp() }
+        rvDiscover.adapter = adapter
 
         setupRecyclerView()
         observeErrors()
 
         viewModel.popularList.observe(viewLifecycleOwner) { pagingData ->
             adapter.submitData(lifecycle, pagingData)
-            loadingDialog.dismiss()
         }
 
         adapter.addLoadStateListener { loadState ->
             when (loadState.refresh) {
-                is LoadState.Error ->  viewModel.isError.value = true
-                is LoadState.Loading -> Log.d("loadState", "Loading...")
-                is LoadState.NotLoading -> Log.d("loadState", "Not Loading")
+                is LoadState.Error ->  {
+                    viewModel.isError.value = true
+                    loadingDialog.dismiss()
+                }
+                is LoadState.Loading -> loadingDialog.show()
+                is LoadState.NotLoading -> loadingDialog.dismiss()
             }
         }
 
@@ -86,7 +86,6 @@ class DiscoverFragment : Fragment(),DetailsListener {
             if ("$text" != "") {
                 viewModel.getSearch("$text")
                 loadingDialog.show()
-                searchFlag = true
             }
             false
         }
