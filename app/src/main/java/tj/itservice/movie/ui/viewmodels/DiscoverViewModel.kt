@@ -16,41 +16,40 @@ class DiscoverViewModel
 
     val movieList: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val popularList: MutableLiveData<List<MovieResult>> = MutableLiveData()
-    val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val isError: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private var popularPage:Int = 1
 
-    fun getSearch(searchQuery: String) = with(viewModelScope) {
-            launch {
-                try {
-                    val results = postRepository.getMovieByQuery(searchQuery)
-                    movieList.postValue(results.results)
-                    Log.d("response", "getPost: ${results.results}")
-                    isErrorVisible.postValue(false)
-                } catch (e: Exception) {
-                    isErrorVisible.postValue(true)
-                    Log.d("response", "getPost: ${e.message}")
-                }
-            }
+    fun getSearch(searchQuery: String) = viewModelScope.launch {
+        try {
+            val results = postRepository.getMovieByQuery(searchQuery)
+            movieList.postValue(results.results)
+            isError.postValue(false)
+            Log.d("response", "getPost: ${results.results}")
+        } catch (e: Exception) {
+            isError.postValue(true)
+            Log.e("response", "Error: $e")
+        }
+
     }
 
-    fun getPopulars() {
-        viewModelScope.launch {
-            if (isLoading.value == true) return@launch
-            isLoading.postValue(true)
-            try {
-                val response = postRepository.getPopularMovie(popularPage)
-                popularList.postValue(response.results)
-                popularPage++
-                isErrorVisible.postValue(false)
-                Log.e("response", "${response.results}")
-            } catch (e: Exception) {
-                Log.e("response", "Error getPost: $e")
-                isErrorVisible.postValue(true)
-            } finally {
-                isLoading.postValue(false)
-            }
+    fun getPopulars() = viewModelScope.launch {
+        if (isLoading.value == true) return@launch
+        isLoading.postValue(true)
+
+        try {
+            val response = postRepository.getPopularMovie(popularPage)
+            popularList.postValue(response.results)
+            popularPage++
+            isError.postValue(false)
+            Log.e("response", "${response.results}")
+        } catch (e: Exception) {
+            isError.postValue(true)
+            Log.e("response", "Error: $e")
+        } finally {
+            isLoading.postValue(false)
         }
     }
 

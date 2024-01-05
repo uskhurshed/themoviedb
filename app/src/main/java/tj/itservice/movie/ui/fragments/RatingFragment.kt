@@ -1,6 +1,7 @@
 package tj.itservice.movie.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,7 @@ class RatingFragment : Fragment(), DetailsListener{
 
     private lateinit var bindRate: FragmentRatingBinding
     private val viewModel: RateViewModel by viewModels()
-    private lateinit var adapter:MovieAdapter
+    private var adapter = MovieAdapter(this)
     private lateinit var errorManager: ErrorManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -30,39 +31,41 @@ class RatingFragment : Fragment(), DetailsListener{
             lifecycleOwner = viewLifecycleOwner
         }
         errorManager = ErrorManager(requireContext(), bindRate.main)
+        bindRate.rvTop.adapter = adapter
         return bindRate.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter  = MovieAdapter(this)
-        bindRate.rvTop.adapter = adapter
-        viewModel.rateLD.observe(viewLifecycleOwner){ adapter.addList(it) }
+        Log.v("adapter",adapter.toString())
+        viewModel.movieList.observe(viewLifecycleOwner){
+            adapter.addList(it)
+            Log.v("adapter", it.toString())
+        }
 
         initRecycleListeners()
         observeErrors()
-
     }
 
-    private fun initRecycleListeners() = with(bindRate) {
-        rvTop.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    private fun initRecycleListeners() = with(viewModel) {
+        bindRate.rvTop.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter.movieList.isNotEmpty()) viewModel?.getRate()
+                if (!recyclerView.canScrollVertically(0) && adapter.movieList.isNotEmpty() ) getRate()
             }
         })
     }
 
     private fun observeErrors() {
-        viewModel.isErrorVisible.observe(viewLifecycleOwner) { isVisible ->
+        viewModel.isError.observe(viewLifecycleOwner) { isVisible ->
             if (isVisible) errorManager.showErrorMessage { viewModel.start() }
         }
     }
 
-    override fun setClick(id: Long?) {
+    override fun setClick(id: Long?)  = with(findNavController()){
         val bundle = Bundle().apply { id?.let { putLong("id", it) } }
-        findNavController().navigate(R.id.action_ratingFragment_to_detailsFragment, bundle)
+        if (currentDestination?.id == R.id.ratingFragment) navigate(R.id.action_ratingFragment_to_detailsFragment, bundle)
     }
 
 }

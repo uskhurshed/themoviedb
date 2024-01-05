@@ -35,7 +35,7 @@ class MovieSliderAdapter : SliderViewAdapter<MovieSliderAdapter.MyViewHolder>() 
             .load(ApiHelper.BASE_BACKDROP_PATH+(movieResult.backdropPath))
             .into(poster)
 
-        if(movieResult.adult) adultCheck.text = "18+"
+        if (movieResult.adult) adultCheck.text = "18+"
         else adultCheck.text = "13+"
 
         movieTitle.text = movieResult.title

@@ -25,20 +25,21 @@ class DetailViewModel @Inject constructor(private val postRepository: Repository
 
     fun load(id: Long) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                movie = movieDao.getMovieById(id)
-            }
+            withContext(Dispatchers.IO) { movie = movieDao.getMovieById(id) }
+
             if (movie != null) {
                 movieList.postValue(movie )
             } else {
                 try {
                     val response = postRepository.getMovieDetails(id)
                     movieList.postValue(response)
+                    Log.d("response", "$response")
                 } catch (e: Exception) {
                     error.postValue(e.message)
-                    Log.d("main", "getPost: ${e.message}")
+                    Log.d("response", "Error: ${e.message}")
                 }
             }
+
         }
     }
 
@@ -50,9 +51,9 @@ class DetailViewModel @Inject constructor(private val postRepository: Repository
                 val requestBody = jsonContent.toRequestBody(mediaType)
                 val response = postRepository.postRate(id,requestBody)
                 message.invoke(response.string())
-                Log.e("SUCV", response.string())
+                Log.e("response", response.string())
             } catch (e: Exception) {
-                Log.d("main", "getPost: ${e.message}")
+                Log.d("response", "Error: ${e.message}")
             }
         }
 
@@ -64,29 +65,24 @@ class DetailViewModel @Inject constructor(private val postRepository: Repository
             try {
                 val response = postRepository.deleteRate(id)
                 message.invoke(response.string())
+                Log.e("response", response.string())
             } catch (e: Exception) {
-                Log.d("main", "getPost: ${e.message}")
+                Log.e("response", "Error: $e")
             }
         }
     }
 
-    suspend fun toggleFavorite() {
+    suspend fun toggleFavorite()  = with(movieDao) {
         withContext(Dispatchers.IO) {
-            if (isFavorite.value == true) {
-                movieList.value?.let { movieDao.deleteMovie(it) }
-                Log.e("database","deleted")
-            } else {
-                movieList.value?.let { movieDao.insertMovie(it) }
-                Log.e("database","added")
-            }
+            if (isFavorite.value == true) movieList.value?.let { deleteMovie(it) }
+            else movieList.value?.let { insertMovie(it) }
         }
         checkHaving()
     }
 
-
-    suspend fun checkHaving() {
+    suspend fun checkHaving() = with(movieList) {
         withContext(Dispatchers.IO) {
-            if (movieList.value?.id?.let { movieDao.getMovieById(it) } == movieList.value) isFavorite.postValue(true)
+            if (value?.id?.let { movieDao.getMovieById(it) } == value) isFavorite.postValue(true)
             else isFavorite.postValue(false)
         }
     }

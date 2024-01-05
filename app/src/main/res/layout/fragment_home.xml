@@ -62,7 +62,7 @@
                     android:id="@+id/slider"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:visibility="@{viewModel.isErrorVisible ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewModel.isError ? View.GONE : View.VISIBLE}"
                     app:sliderAnimationDuration="600"
                     app:sliderAutoCycleDirection="back_and_forth"
                     app:sliderIndicatorAnimationDuration="600"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp"
-                    android:visibility="@{viewModel.isErrorVisible ? View.GONE : View.VISIBLE}">
+                    android:visibility="@{viewModel.isError ? View.GONE : View.VISIBLE}">
 
                     <TextView
                         android:id="@+id/textView2"
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:visibility="@{viewModel.isErrorVisible ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewModel.isError ? View.GONE : View.VISIBLE}"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2">
 

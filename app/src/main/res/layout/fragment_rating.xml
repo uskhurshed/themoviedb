@@ -38,7 +38,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_top"
-            android:visibility="@{viewModel.isErrorVisible ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.isError ? View.GONE : View.VISIBLE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

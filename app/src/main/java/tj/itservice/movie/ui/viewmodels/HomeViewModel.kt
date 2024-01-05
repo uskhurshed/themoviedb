@@ -16,49 +16,42 @@ class HomeViewModel
 
     val upcomingLD: MutableLiveData<List<MovieResult>> = MutableLiveData()
     val popularLD: MutableLiveData<List<MovieResult>> = MutableLiveData()
-    val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
-    private var popularPage:Int = 1
 
+    val isError: MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
         start()
     }
 
     fun start(){
-        popularPage = 1
         getPopulars()
         getUpcoming()
     }
 
-    private fun getUpcoming() {
-        viewModelScope.launch {
-            try {
-                val response = postRepository.getUpcomingMovie()
-                upcomingLD.postValue(response.results)
-                isErrorVisible.postValue(false)
-                Log.e("response", "${response.results}")
-            } catch (e: Exception) {
-                Log.e("response", "Error getUpcoming: $e")
-                isErrorVisible.postValue(true)
-            }
+    private fun getUpcoming() = viewModelScope.launch {
+        try {
+            val response = postRepository.getUpcomingMovie()
+            upcomingLD.postValue(response.results)
+            isError.postValue(false)
+            Log.e("response", "${response.results}")
+        } catch (e: Exception) {
+            Log.e("response", "Error getUpcoming: $e")
+            isError.postValue(true)
         }
     }
 
 
-
-    private fun getPopulars() {
-        viewModelScope.launch {
-            try {
-                val response = postRepository.getPopularMovie(popularPage)
-                popularLD.postValue(response.results)
-                popularPage ++
-                isErrorVisible.postValue(false)
-                Log.e("response", "${response.results}")
-            } catch (e: Exception) {
-                Log.e("response", "Error getPost: $e")
-                isErrorVisible.postValue(true)
-            }
+    private fun getPopulars() = viewModelScope.launch {
+        try {
+            val response = postRepository.getPopularMovie(1)
+            popularLD.postValue(response.results)
+            isError.postValue(false)
+            Log.e("response", "${response.results}")
+        } catch (e: Exception) {
+            isError.postValue(true)
+            Log.e("response", "Error: $e")
         }
+
     }
 
 }

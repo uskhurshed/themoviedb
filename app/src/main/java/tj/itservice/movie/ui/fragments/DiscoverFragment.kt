@@ -77,20 +77,20 @@ class DiscoverFragment : Fragment(),DetailsListener {
         }
     }
 
-    private fun initRecycleListeners() = with(bindDis) {
-        rvDiscover.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    private fun initRecycleListeners() = with(viewModel) {
+        bindDis.rvDiscover.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(0) && !searchFlag && viewModel?.isLoading?.value == false) viewModel?.getPopulars()
+                if (!recyclerView.canScrollVertically(0) && !searchFlag) getPopulars()
             }
         })
     }
 
     private fun observeErrors() = with(viewModel) {
-        isErrorVisible.observe(viewLifecycleOwner) { isVisible ->
+        isError.observe(viewLifecycleOwner) { isVisible ->
             if (isVisible) {
                 loadingDialog.dismiss()
-                errorManager.showErrorMessage { viewModel.getPopulars() }
+                errorManager.showErrorMessage { getPopulars() }
             }
         }
     }

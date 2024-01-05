@@ -118,6 +118,7 @@ class DetailsFragment : Fragment() {
         Glide.with(requireContext())
             .load(url)
             .error(R.drawable.ic_movie)
+            .centerCrop()
             .into(iv)
     }
 }

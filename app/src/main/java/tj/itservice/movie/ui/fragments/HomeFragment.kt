@@ -52,21 +52,21 @@ class HomeFragment : Fragment(), DetailsListener {
     }
 
     private fun observeErrors() = with(viewModel){
-        isErrorVisible.observe(viewLifecycleOwner) { isVisible ->
+        isError.observe(viewLifecycleOwner) { isVisible ->
             if (isVisible) errorManager.showErrorMessage { start() }
         }
     }
 
     private fun setupNavigationListeners() = with(binding) {
         findNavController().apply {
-            search.setOnClickListener {  this.navigate(R.id.action_homeFragment_to_discoverFragment)}
-            seeAll.setOnClickListener {  this.navigate(R.id.action_homeFragment_to_discoverFragment)}
+            search.setOnClickListener {  if (currentDestination?.id == R.id.homeFragment)  this.navigate(R.id.action_homeFragment_to_discoverFragment)}
+            seeAll.setOnClickListener {  if (currentDestination?.id == R.id.homeFragment)  this.navigate(R.id.action_homeFragment_to_discoverFragment)}
         }
     }
 
     private fun navigateToDetails(movieId: Long) = with(findNavController()) {
         val bundle = Bundle().apply { putLong("id", movieId) }
-        navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
+        if (currentDestination?.id == R.id.homeFragment) navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
     }
 
     override fun setClick(id: Long?) {

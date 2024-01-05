@@ -30,8 +30,8 @@ class DiscoverAdapter(private val listener: DetailsListener) : RecyclerView.Adap
             .placeholder(R.drawable.ic_movie)
             .into(imageView)
 
-        name.text = movieResult.title.toString()
-        date.text = movieResult.releaseDate.toString()
+        name.text = movieResult.title
+        date.text = movieResult.releaseDate
         detail.text = movieResult.overview
 
         itemView.setOnClickListener { listener.setClick(movieResult.id) }

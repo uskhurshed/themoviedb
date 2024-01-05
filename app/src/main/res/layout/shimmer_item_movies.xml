@@ -12,6 +12,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
+        app:shimmer_shape="radial"
         android:background="#EFEFEF">
 
 
@@ -33,31 +34,33 @@
                 android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="5dp"
+                android:gravity="center"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="@string/_0_00"
                 app:drawableStartCompat="@drawable/ic_rate"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:drawableTint="#000000" />
 
             <TextView
                 android:id="@+id/tv_lang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_curr"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
+                android:backgroundTint="#3F51B5"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="@string/en"
                 android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/tv_rating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

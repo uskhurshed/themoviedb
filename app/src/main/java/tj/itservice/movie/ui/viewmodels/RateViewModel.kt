@@ -13,34 +13,34 @@ import javax.inject.Inject
 @HiltViewModel
 class RateViewModel @Inject constructor(private val postRepository: Repository) : ViewModel() {
 
-    val rateLD: MutableLiveData<List<MovieResult>> = MutableLiveData()
+    val movieList: MutableLiveData<List<MovieResult>> = MutableLiveData()
     private var ratePage:Int = 1
-    val isErrorVisible: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    val isError: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    init {
-        start()
-    }
+    init { start() }
 
     fun start(){
         ratePage = 1
         getRate()
     }
 
+    fun getRate() = viewModelScope.launch {
+        if (isLoading.value == true) return@launch
+        isLoading.postValue(true)
 
-    fun getRate() {
-        viewModelScope.launch {
-            try {
-                val response = postRepository.getTopRatedMovie(ratePage)
-                rateLD.postValue(response.results)
-                ratePage ++
-                Log.d("rateVM", "${response.results}")
-                isErrorVisible.postValue(false)
-            } catch (e: Exception) {
-                Log.d("rateVM", "getPost: ${e.message}")
-                isErrorVisible.postValue(true)
-            }
+        try {
+            val response = postRepository.getTopRatedMovie(ratePage)
+            movieList.postValue(response.results)
+            ratePage++
+            Log.d("response", "${response.results}")
+            isError.postValue(false)
+        } catch (e: Exception) {
+            Log.d("response", "Error: ${e.message}")
+            isError.postValue(true)
+        } finally {
+            isLoading.postValue(false)
         }
     }
-
 }

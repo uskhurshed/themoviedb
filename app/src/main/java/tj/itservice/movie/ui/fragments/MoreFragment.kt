@@ -49,7 +49,7 @@ class MoreFragment : Fragment(),View.OnClickListener{
             R.id.btn_rate -> goWithUrl(ctx,"https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}")
             R.id.btn_apps -> goWithUrl(ctx,"https://play.google.com/store/apps/dev?id=7468148183308310395")
             R.id.btn_share -> share(ctx,"movie","Скачай приложение бесплатно!")
-            R.id.btn_about -> Snackbar.make(view, "Программу создал Khurshed Usmonov.", Snackbar.LENGTH_LONG).show()
+            R.id.btn_about -> Snackbar.make(view, "Программа разработана в учебных целях!.", Snackbar.LENGTH_LONG).show()
         }
     }
 }

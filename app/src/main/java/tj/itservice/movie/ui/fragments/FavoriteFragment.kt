@@ -57,7 +57,7 @@ class FavoriteFragment : Fragment(),DetailsListener {
     override fun setClick(id: Long?): Unit = with(findNavController()) {
         id?.let {
             val bundle = Bundle().apply { putLong("id", it) }
-            navigate(R.id.action_favoriteFragment_to_detailsFragment, bundle)
+            if (currentDestination?.id == R.id.favoriteFragment) navigate(R.id.action_favoriteFragment_to_detailsFragment, bundle)
         }
     }
 
