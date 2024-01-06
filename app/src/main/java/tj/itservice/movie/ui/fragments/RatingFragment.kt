@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.MovieAdapter
-import tj.itservice.movie.data.MovieResult
 import tj.itservice.movie.databinding.FragmentRatingBinding
 import tj.itservice.movie.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.RateViewModel
