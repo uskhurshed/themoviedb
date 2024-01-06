@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RateViewModel @Inject constructor(private val postRepository: Repository) : ViewModel() {
 
-    val movieList: MutableLiveData<List<MovieResult>> = MutableLiveData()
+    val movieList: MutableLiveData<MutableList<MovieResult>> = MutableLiveData()
     private var ratePage:Int = 1
 
     val isError: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -32,7 +32,7 @@ class RateViewModel @Inject constructor(private val postRepository: Repository) 
 
         try {
             val response = postRepository.getTopRatedMovie(ratePage)
-            movieList.postValue(response.results)
+            addMoviesToList(response.results)
             ratePage++
             Log.d("response", "${response.results}")
             isError.postValue(false)
@@ -44,4 +44,9 @@ class RateViewModel @Inject constructor(private val postRepository: Repository) 
         }
     }
 
+    private fun addMoviesToList(newMovies: List<MovieResult>) {
+        val currentList = movieList.value ?: mutableListOf()
+        currentList.addAll(newMovies)
+        movieList.postValue(currentList)
+    }
 }

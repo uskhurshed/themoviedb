@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import tj.itservice.movie.R
 import tj.itservice.movie.adapter.MovieAdapter
+import tj.itservice.movie.data.MovieResult
 import tj.itservice.movie.databinding.FragmentRatingBinding
 import tj.itservice.movie.interfaces.DetailsListener
 import tj.itservice.movie.ui.viewmodels.RateViewModel
@@ -29,15 +30,15 @@ class RatingFragment : Fragment(), DetailsListener{
             this.viewModel = this@RatingFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
         }
-        bindRate.rvTop.adapter = adapter
+
         errorManager = ErrorManager(requireContext(), bindRate.main)
         return bindRate.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.movieList.observe(viewLifecycleOwner){ adapter.addList(it) }
-
+        viewModel.movieList.observe(viewLifecycleOwner){ adapter.movieList  = it as ArrayList<MovieResult> }
+        bindRate.rvTop.adapter = adapter
         initRecycleListeners()
         observeErrors()
     }
