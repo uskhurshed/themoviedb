@@ -37,7 +37,7 @@ class RatingFragment : Fragment(), DetailsListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.movieList.observe(viewLifecycleOwner){ adapter.movieList  = it as ArrayList<MovieResult> }
+        viewModel.movieList.observe(viewLifecycleOwner){ adapter.setList(it) }
         bindRate.rvTop.adapter = adapter
         initRecycleListeners()
         observeErrors()

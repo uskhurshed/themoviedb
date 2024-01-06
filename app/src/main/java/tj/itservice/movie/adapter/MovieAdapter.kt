@@ -60,6 +60,13 @@ class MovieAdapter(private val listener: DetailsListener) : RecyclerView.Adapter
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun setList(mv: List<MovieResult>){
+        movieList.clear()
+        movieList.addAll(mv)
+        notifyDataSetChanged()
+    }
+
     override fun getItemViewType(position: Int): Int {
         return if (movieList.isEmpty()) typeShimmer
         else typeRegular
