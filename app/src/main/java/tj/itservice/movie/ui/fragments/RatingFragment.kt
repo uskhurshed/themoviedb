@@ -64,6 +64,4 @@ class RatingFragment : Fragment(), DetailsListener{
         val bundle = Bundle().apply { id?.let { putLong("id", it) } }
         if (currentDestination?.id == R.id.ratingFragment) navigate(R.id.action_ratingFragment_to_detailsFragment, bundle)
     }
-
-
 }
