@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -48,14 +47,5 @@ class PagerAdapter (private val listener: DetailsListener): PagingDataAdapter<Mo
         override fun areContentsTheSame(oldItem: MovieResult, newItem: MovieResult): Boolean = oldItem == newItem
     }
 
-    suspend fun addList(newList: List<MovieResult>) {
-        val currentData = snapshot().items
-        val updatedData = currentData + newList
-        submitData(PagingData.from(updatedData))
-    }
-
-    suspend fun setList(newList: List<MovieResult>) {
-        submitData(PagingData.from(newList))
-    }
 
 }

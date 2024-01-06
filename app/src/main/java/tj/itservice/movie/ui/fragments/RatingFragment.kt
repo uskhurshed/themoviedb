@@ -1,7 +1,6 @@
 package tj.itservice.movie.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +24,6 @@ class RatingFragment : Fragment(), DetailsListener{
     private var adapter = MovieAdapter(this)
     private lateinit var errorManager: ErrorManager
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindRate = FragmentRatingBinding.inflate(inflater, container, false).apply {
             this.viewModel = this@RatingFragment.viewModel
@@ -38,11 +36,7 @@ class RatingFragment : Fragment(), DetailsListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.e("adapterrrr",adapter.toString())
-        viewModel.movieList.observe(viewLifecycleOwner){
-            adapter.addList(it)
-        }
+        viewModel.movieList.observe(viewLifecycleOwner){ adapter.addList(it) }
 
         initRecycleListeners()
         observeErrors()
@@ -57,9 +51,12 @@ class RatingFragment : Fragment(), DetailsListener{
         })
     }
 
-    private fun observeErrors() {
-        viewModel.isError.observe(viewLifecycleOwner) { isVisible ->
-            if (isVisible) errorManager.showErrorMessage { viewModel.start() }
+    private fun observeErrors() = with(viewModel) {
+        isError.observe(viewLifecycleOwner) { isVisible ->
+            if (isVisible) errorManager.showErrorMessage {
+                adapter.movieList.clear()
+                start()
+            }
         }
     }
 

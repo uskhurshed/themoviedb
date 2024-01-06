@@ -5,7 +5,7 @@
     <data>
         <import type="android.view.View" />
         <variable
-            name="viewModel"
+            name="vm"
             type="tj.itservice.movie.ui.viewmodels.DiscoverViewModel" />
     </data>
 
@@ -62,7 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:paddingStart="5dp"
-            android:visibility="@{viewModel.isError ? View.GONE : View.VISIBLE}"
+            android:visibility="@{vm.isError ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:visibility="@{viewModel.isError ? View.VISIBLE : View.GONE}"
+            android:visibility="@{vm.isError ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

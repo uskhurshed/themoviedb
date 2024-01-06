@@ -2,7 +2,6 @@ package tj.itservice.movie.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class DiscoverFragment : Fragment(),DetailsListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindDis = FragmentDiscoverBinding.inflate(inflater, container, false).apply {
-            this.viewModel = this@DiscoverFragment.viewModel
+            this.vm = this@DiscoverFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
         }
 
@@ -73,7 +73,7 @@ class DiscoverFragment : Fragment(),DetailsListener {
         viewModel.movieList.observe(viewLifecycleOwner) {
             viewLifecycleOwner.lifecycleScope.launch {
                 loadingDialog.dismiss()
-                adapter.setList(it)
+                adapter.submitData(PagingData.from(it))
             }
         }
 

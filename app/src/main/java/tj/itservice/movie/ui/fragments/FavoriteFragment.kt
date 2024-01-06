@@ -43,7 +43,7 @@ class FavoriteFragment : Fragment(),DetailsListener {
 
     private fun getFavorites() = viewLifecycleOwner.lifecycleScope.launch {
         val result = withContext(Dispatchers.IO) { movieDao.getAllMovies() }
-        adapter.setList(result)
+        adapter.submitData(PagingData.from(result))
     }
 
     override fun onResume() {
