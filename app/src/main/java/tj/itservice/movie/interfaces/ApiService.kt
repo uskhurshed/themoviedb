@@ -32,8 +32,9 @@ interface ApiService {
     @GET(ApiHelper.TOP_RATED_MOVIE)
     @Headers("Authorization: Bearer " + ApiHelper.HEADER_API_KEY)
     suspend fun getTopRatedMovie(
-        @Query("page") page: Int?)
-    : Movie
+        @Query("page") page: Int?,
+        @Query("language") language: String = ApiHelper.LANGUAGE
+    ): Movie
 
 
     @GET("3/search/movie")
