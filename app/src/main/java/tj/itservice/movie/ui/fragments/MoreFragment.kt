@@ -24,23 +24,19 @@ class MoreFragment : Fragment(),View.OnClickListener{
         return bindMore.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(bindMore) {
         super.onViewCreated(view, savedInstanceState)
-
-        bindMore.apply {
-
-            darkSwitch.isChecked = MoreFunction.getFromPref(requireContext(),"isNight",false)
-            darkSwitch.setOnCheckedChangeListener { _, isChecked ->
-                MoreFunction.setFromPref(requireContext(),"isNight",isChecked)
-                if (isChecked)AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-
-            btnRate.setOnClickListener(this@MoreFragment)
-            btnApps.setOnClickListener(this@MoreFragment)
-            btnShare.setOnClickListener (this@MoreFragment)
-            btnAbout.setOnClickListener(this@MoreFragment)
+        darkSwitch.isChecked = MoreFunction.getFromPref(requireContext(), "isNight", false)
+        darkSwitch.setOnCheckedChangeListener { _, isChecked ->
+            MoreFunction.setFromPref(requireContext(), "isNight", isChecked)
+            if (isChecked) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
+
+        btnRate.setOnClickListener(this@MoreFragment)
+        btnApps.setOnClickListener(this@MoreFragment)
+        btnShare.setOnClickListener(this@MoreFragment)
+        btnAbout.setOnClickListener(this@MoreFragment)
     }
 
     override fun onClick(view: View?) {

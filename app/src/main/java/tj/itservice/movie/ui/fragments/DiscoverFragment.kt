@@ -26,13 +26,12 @@ import tj.itservice.movie.utils.LoadingDialog
 class DiscoverFragment : Fragment(),DetailsListener {
 
     private lateinit var bindDis: FragmentDiscoverBinding
-
     private val viewModel: DiscoverViewModel by viewModels()
+
     private lateinit var errorManager: ErrorManager
     private lateinit var loadingDialog: LoadingDialog
 
     private var adapter = PagerAdapter(this)
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindDis = FragmentDiscoverBinding.inflate(inflater, container, false).apply {
@@ -71,14 +70,13 @@ class DiscoverFragment : Fragment(),DetailsListener {
         }
 
         viewModel.movieList.observe(viewLifecycleOwner) {
-            viewLifecycleOwner.lifecycleScope.launch {
+            lifecycleScope.launch {
                 loadingDialog.dismiss()
                 adapter.submitData(PagingData.from(it))
             }
         }
 
         initSearch()
-
     }
 
     private fun initSearch() = with(bindDis.etSearch) {

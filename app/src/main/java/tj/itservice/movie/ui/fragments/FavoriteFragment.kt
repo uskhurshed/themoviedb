@@ -34,10 +34,10 @@ class FavoriteFragment : Fragment(),DetailsListener {
         return bindFav.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(bindFav) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindFav.rvFavorite.adapter = adapter
+        rvFavorite.adapter = adapter
         getFavorites()
     }
 

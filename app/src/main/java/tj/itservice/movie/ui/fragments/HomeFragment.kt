@@ -59,8 +59,8 @@ class HomeFragment : Fragment(), DetailsListener {
 
     private fun setupNavigationListeners() = with(binding) {
         findNavController().apply {
-            search.setOnClickListener {  if (currentDestination?.id == R.id.homeFragment)  this.navigate(R.id.action_homeFragment_to_discoverFragment)}
-            seeAll.setOnClickListener {  if (currentDestination?.id == R.id.homeFragment)  this.navigate(R.id.action_homeFragment_to_discoverFragment)}
+            search.setOnClickListener {  if (currentDestination?.id == R.id.homeFragment)  navigate(R.id.action_homeFragment_to_discoverFragment)}
+            seeAll.setOnClickListener {  if (currentDestination?.id == R.id.homeFragment)  navigate(R.id.action_homeFragment_to_discoverFragment)}
         }
     }
 

@@ -114,7 +114,7 @@ class DetailsFragment : Fragment() {
             }
     }
 
-    private fun loadImage(url:String,iv:ImageView){
+    private fun loadImage(url: String, iv: ImageView) {
         Glide.with(requireContext())
             .load(url)
             .error(R.drawable.ic_movie)
