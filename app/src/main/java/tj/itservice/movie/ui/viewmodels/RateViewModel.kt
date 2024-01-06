@@ -44,9 +44,9 @@ class RateViewModel @Inject constructor(private val postRepository: Repository) 
         }
     }
 
-    private fun addMoviesToList(newMovies: List<MovieResult>) {
-        val currentList = movieList.value ?: mutableListOf()
+    private fun addMoviesToList(newMovies: List<MovieResult>) = with(movieList) {
+        val currentList = value ?: mutableListOf()
         currentList.addAll(newMovies)
-        movieList.postValue(currentList)
+        postValue(currentList)
     }
 }
