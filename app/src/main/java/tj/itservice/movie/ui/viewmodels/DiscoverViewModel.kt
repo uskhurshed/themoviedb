@@ -32,23 +32,14 @@ class DiscoverViewModel
             isError.postValue(true)
             Log.e("response", "Error: $e")
         }
-
     }
 
-    val popularList = Pager(
-        PagingConfig(
-            pageSize = 20
-        )
-    ) {
+    val popularList = Pager(PagingConfig(pageSize = 20)) {
         PagingSource(postRepository)
     }.liveData.cachedIn(viewModelScope).also { ld ->
         ld.observeForever { pagingData ->
-            pagingData?.let {
-            } ?: run {
-            }
+            pagingData?.let {} ?: run {}
         }
     }
-
-
 
 }
